@@ -35,7 +35,7 @@ function Contact() {
             concern: formDataContact.concern
         }
 
-        axios.post(process.env.BACKEND_URL, contact)
+        axios.post("https://api.paathshaala.me/contact/", contact)
             .then((res) => {
                 setFormDataContact(initialDataContact);
                 closeAlertError();

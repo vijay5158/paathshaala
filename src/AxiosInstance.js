@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const AxiosInstance = axios.create({
-    baseURL: process.env.BACKEND_URL
+    baseURL: "https://api.paathshaala.me/api/"
  })
 
 export default AxiosInstance;
