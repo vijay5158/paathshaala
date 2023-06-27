@@ -85,13 +85,13 @@ html {
 .nav-list li a:focus {
     background: linear-gradient(45deg, #FF2C4F, #0B31D0);
     color: white;
-    box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5); */
 }
 
 .nav-list li a:hover {
     background: linear-gradient(45deg, #FF2C4F, #0B31D0);
     color: white;
-    box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5); */
     /*padding: 0.5rem;*/
     /*border-radius: 15px;*/
 
@@ -234,7 +234,7 @@ img.vert-move {
     border-radius: 8px;
     background: linear-gradient(45deg, #FF2C4F, #0B31D0);
     color: white;
-    box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5); */
     cursor: pointer;
     font-family: 'Audiowide', cursive;
     font-size: 15px;
@@ -250,7 +250,7 @@ img.vert-move {
     background: linear-gradient(45deg, #FF2C4F, #0B31D0);
     color: lightgray;
 
-    box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.5); */
     border: none;
     transition: all 0.2s ease-out;
 
@@ -348,7 +348,7 @@ img.vert-move {
     justify-content: center;
     background: linear-gradient(45deg, #FF2C4F, #0B31D0);
     color: white;
-    box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.5); */
     /*color: black;*/
 
 }
@@ -388,7 +388,7 @@ img.vert-move {
     }
 
     .nav-list li a {
-        font-size: 13px;
+        /* font-size: 13px; */
     }
 
     .rightNav {
@@ -428,7 +428,7 @@ img.vert-move {
     .nav-list li a {
         text-decoration: none;
         /*color: black;*/
-        font-size: 12px;
+        /* font-size: 1px; */
         /*font-family: 'Ubuntu', sans-serif;*/
         font-family: 'Audiowide', cursive;
         color: #58418b;
@@ -437,7 +437,7 @@ img.vert-move {
     }
 
     .navbar {
-        height: 250px;
+        height: 260px;
         flex-direction: column;
         transition: all 0.7s ease-out;
     }

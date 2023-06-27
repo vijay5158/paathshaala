@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import Loader from "../Loader/Loader";
@@ -12,6 +11,7 @@ import JoinClass from "./Class/JoinClass";
 import { useAccessToken } from '../../redux/reducers/authReducer';
 import { useUser } from '../../redux/reducers/userReducer';
 import { getAllClasses, getClasses, useClassLoading } from '../../redux/reducers/classReducer';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 
 
@@ -72,7 +72,7 @@ const Classes = (props) => {
                             </Box>}
                         <button className='fixed right-[2%] mt-[1rem] z-10 rounded-full p-2 bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] shadow-lg' aria-controls="simple-menu" aria-haspopup="true"
                             onClick={handleClick}>
-                            <AddCircleOutlineRoundedIcon className='text-white' fontSize='large' />
+                            <AiOutlinePlus className='text-white' />
                         </button>
                         <Menu
                             id="simple-menu"

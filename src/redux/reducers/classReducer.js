@@ -9,7 +9,7 @@ import AxiosInstance from "../../AxiosInstance";
 
 const initialState = {
     classes: [],
-    currentClass: {},
+    currentClass: {class_name:"loading", standard:"loading", subject:"loading"},
     announcements: [],
     error: null,
     loading: false
@@ -192,7 +192,8 @@ export const deleteCLS = (token, data) => {
 
 export const getCurrentClassSuccess = (token, slug) => {
     return dispatch => {
-
+        dispatch(setCurrentClass({class_name:"loading", standard:"loading", subject:"loading"}));
+        dispatch(setPostSuccess([]));
         AxiosInstance.defaults.headers = {
             Authorization: `Bearer ${token}`
         };

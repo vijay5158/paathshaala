@@ -9,9 +9,8 @@ import Collapse from "@material-ui/core/Collapse";
 import { red } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
+import { MdExpandMore } from "react-icons/md";
+import { AiOutlineStar, AiOutlineShareAlt } from 'react-icons/ai';
 import clsx from "clsx";
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Audiowide',
         maxWidth: 345,
         backgroundImage: `url(${Cardbg})`,
-        boxShadow: '2px 10px 20px rgba(0,0,0, 0.5)',
+        boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
         margin: 'auto'
     },
     media: {
@@ -94,10 +93,10 @@ function Class({classData}) {
                             </CardContent>
                             <CardActions disableSpacing>
                                 <IconButton aria-label="add to favorites">
-                                    <FavoriteIcon />
+                                    <AiOutlineStar />
                                 </IconButton>
                                 <IconButton aria-label="share">
-                                    <ShareIcon />
+                                    <AiOutlineShareAlt />
                                 </IconButton>
                                 <IconButton
                                     className={clsx(classes.expand, {
@@ -107,7 +106,7 @@ function Class({classData}) {
                                     aria-expanded={expanded}
                                     aria-label="show more"
                                 >
-                                    <ExpandMoreIcon />
+                                    <MdExpandMore />
                                 </IconButton>
                             </CardActions>
                             <Collapse in={expanded} timeout="auto" unmountOnExit>

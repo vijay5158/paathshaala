@@ -4,7 +4,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { GetAppSharp } from "@material-ui/icons";
 import React from 'react';
 import DocIcon from '../../images/doc.png';
 import FileIcon from '../../images/file.png';
@@ -14,6 +13,7 @@ import Mp4Icon from '../../images/mp4.png';
 import PdfIcon from '../../images/pdf.png';
 import PptIcon from '../../images/ppt.png';
 import ZipIcon from '../../images/zip.jpg';
+import { AiOutlineCloudDownload } from 'react-icons/ai';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -74,8 +74,7 @@ function PostData(props) {
                     <IconButton>
 
                         <a target='_blank' style={{ textDecoration: 'none' }} href={props.file}>
-                            <GetAppSharp fontSize='large' style={{ color: '#f74754' }} />
-
+                            <AiOutlineCloudDownload className='text-lg text-[#f74754]' />
                         </a>
                     </IconButton>
                 </div>

@@ -1,7 +1,4 @@
 import { Breadcrumbs, Button, Chip, emphasize, Input, withStyles } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import HomeIcon from "@material-ui/icons/Home";
 import FormData from 'form-data';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
@@ -9,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import './profile.css';
 import { useAccessToken } from "../../redux/reducers/authReducer";
 import { updateUserData, useUser } from "../../redux/reducers/userReducer";
+import { MdExpandMore } from "react-icons/md";
+import { AiFillEdit, AiFillHome } from "react-icons/ai";
 
 const StyledBreadcrumb = withStyles((theme) => ({
     root: {
@@ -41,8 +40,7 @@ function Profile(props) {
         navigate('/')
     }
     const initialUserData = Object.freeze({
-        first_name: authData?.name?.split(" ")?.length>0 ? authData?.name?.split(" ")[0]:"",
-        last_name: authData?.name?.split(" ")?.length>1 ? authData?.name?.split(" ")[1] : "",
+        name: authData?.name,
         password: '',
         email: authData?.email,
         mobile: authData?.mobile,
@@ -51,15 +49,18 @@ function Profile(props) {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, []);
-    const [userData, setUserData] = useState(initialUserData);
+    const [userData, setUserData] = useState({});
     const [editMode, setEditMode] = useState(false);
-    const [profile, setProfile] = useState(null);
 
     const handleChangeProfile = (event) => {
-        setProfile({
-            profile_img: event.target.files,
+        const files = event.target.files;
+        if (files.length>0){
+        const updatedData = new FormData();
 
-        });
+        updatedData.append('profile_img', files[0])
+
+        dispatch(updateUserData(updatedData, authData?.userId, authToken));
+     }
     }
 
     const handleChange = (event) => {
@@ -72,30 +73,14 @@ function Profile(props) {
     const edit = (e) => {
         setEditMode(true)
     }
-    let updatedData = new FormData()
-
-    updatedData.append('first_name', userData.first_name)
-    updatedData.append('last_name', userData.last_name)
-    updatedData.append('email', userData.email)
-    updatedData.append('mobile', userData.mobile)
-
+    
     const editSubmit = (e) => {
-        if (userData.password.length != 0) {
-
-            updatedData.append('password', userData.password)
-
-        }
-        if (profile != null) {
-
-            updatedData.append('profile_img', profile.profile_img[0])
-
-        }
-
-        dispatch(updateUserData(updatedData, authData?.userId, authToken));
-        setEditMode(false)
+        if (Object.keys(userData)?.length>0){
+        dispatch(updateUserData(userData, authData?.userId, authToken));
         document.getElementById('password').value = '';
     }
-
+    setEditMode(false)
+}
     return (
         <>
             <div className="container1">
@@ -105,42 +90,43 @@ function Profile(props) {
                             component="a"
                             href="/"
                             label="Home"
-                            icon={<HomeIcon fontSize="small" />}
+                            icon={<AiFillHome className="text-sm" />}
                             onClick={handleClick}
                         />
                         <StyledBreadcrumb
                             label="User Profile"
-                            deleteIcon={<ExpandMoreIcon />}
+                            deleteIcon={<MdExpandMore />}
                             onClick={handleClick}
                             onDelete={handleClick}
                         />
                     </Breadcrumbs>
 
 
-                    <div className="row gutters-sm resp">
-                        <div className="col-md-4 mb-3 profile-div">
-                            <div className="card" style={{ boxShadow: '2px 10px 20px rgba(0,0,0, 0.3)', marginBottom: '1.1rem', borderRadius: '0.5rem' }}>
+                    <div className="row gutters-sm resp mt-4">
+                        <div className="col-md-4 mb-3 w-full sm:mt-0 mt-4 profile-div">
+                            <div className="card" >
                                 <div className="card-body">
                                     <div className="profile-img">
                                         <div style={{ display: 'flex', flexDirection: 'row' }} >
-                                            <img src={(authData?.profileImg) ? authData?.profileImg : "https://bootdey.com/img/Content/avatar/avatar7.png"} alt="Admin"
+                                            <img src={(authData?.profile_img) ? authData?.profile_img : "https://bootdey.com/img/Content/avatar/avatar7.png"} alt="Admin"
                                                 className="rounded-circle" style={{ width: '9rem', borderRadius: '50%' }} />
-                                            {(editMode) ? <> <Edit />
-                                                <Input type="file" id="profile_img"
+                                                <label className="cursor-pointer flex items-end" htmlFor="profile_img">
+                                                <AiFillEdit />
+                                                </label> 
+                                                <input type="file" className="hidden" id="profile_img"
                                                     accept="image/*"
-                                                    onChange={handleChangeProfile} disableUnderline={true} name="profile_img" />
-                                            </>
-                                                : null}
+                                                    onChange={handleChangeProfile} name="profile_img" />
+                                                
 
                                         </div>
                                         <div style={{ marginTop: '1rem' }}>
-                                            <h4 style={{ fontSize: '1.5rem', color: '#58418b' }}>{userData.firstName}</h4>
+                                            <h4 style={{ fontSize: '1.5rem', color: '#58418b' }}>{authData.name}</h4>
                                             <h5 className="text-secondary mb-1" style={{ marginBottom: '0.25rem', fontSize: '1rem', color: '#d14467' }}>{(authData?.is_student) ? 'Student' : 'Teacher'}</h5>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="card mt-3" style={{ marginTop: '1rem', boxShadow: '2px 10px 20px rgba(0,0,0, 0.3)', padding: '1.2rem', marginBottom: '1.1rem', borderRadius: '0.5rem' }}>
+                            {/* <div className="card mt-3" style={{ marginTop: '1rem', boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)', padding: '1.2rem', marginBottom: '1.1rem', borderRadius: '0.5rem' }}>
                                 <ul className="list-group list-group-flush" style={{ listStyleType: 'none' }}>
                                     <li className="list-group-item">
                                         <h3 style={{ marginBottom: '0' }}>
@@ -217,24 +203,16 @@ function Profile(props) {
                                         <span className="text-secondary">bootdey</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> */}
                         </div>
-                        <div className="col-md-8 profile-detail">
+                        <div className="col-md-8 profile-detail w-full">
                             <div className="card mb-3 detail-div">
                                 <div className="card-body">
                                     <div className="row1">
                                         <div className="col-3" >
-                                            <h3 style={{ color: '#f74754',marginBottom: '0'  }}>First Name</h3>
+                                            <h3 style={{ color: '#f74754',marginBottom: '0'  }}>Name</h3>
                                         </div>
-                                        <Input className="col-9 text-secondary" onChange={handleChange} name='first_name' readOnly={(editMode) ? false : true} disableUnderline={(editMode) ? false : true} defaultValue={userData.first_name} />
-
-                                    </div>
-                                    <hr />
-                                    <div className="row1">
-                                        <div className="col-3">
-                                            <h3 style={{ color: '#e6455c',marginBottom: '0'  }}>Last Name</h3>
-                                        </div>
-                                        <Input className="col-9 text-secondary" onChange={handleChange} name='last_name' readOnly={(editMode) ? false : true} disableUnderline={(editMode) ? false : true} defaultValue={userData.last_name} />
+                                        <Input className="col-9 text-secondary" onChange={handleChange} name='name' readOnly={(editMode) ? false : true} disableUnderline={(editMode) ? false : true} defaultValue={authData?.name} />
 
                                     </div>
                                     <hr />
@@ -242,14 +220,14 @@ function Profile(props) {
                                         <div className="col-3">
                                             <h3 style={{ color: '#d14467',marginBottom: '0'  }}>Email</h3>
                                         </div>
-                                        <Input className="col-9 text-secondary" onChange={handleChange} name='email' readOnly={(editMode) ? false : true} disableUnderline={(editMode) ? false : true} defaultValue={userData.email} />
+                                        <Input className="col-9 text-secondary" onChange={handleChange} name='email' readOnly={(editMode) ? false : true} disableUnderline={(editMode) ? false : true} defaultValue={authData?.email} />
 
                                     </div>
                                     <hr />
                                     <div className="row1">
                                         <div className="col-3">
                                             <h3 style={{ color: '#944688',marginBottom: '0'  }}>Mobile</h3>
-                                        </div><Input className="col-9 text-secondary" name='mobile' onChange={handleChange} readOnly={(editMode) ? false : true} disableUnderline={(editMode) ? false : true} defaultValue={userData.mobile} />
+                                        </div><Input className="col-9 text-secondary" name='mobile' onChange={handleChange} readOnly={(editMode) ? false : true} disableUnderline={(editMode) ? false : true} defaultValue={authData?.mobile} />
 
                                     </div>
                                     <hr />
@@ -263,11 +241,9 @@ function Profile(props) {
                                     <hr />
                                     <div className="row1">
                                         <div className="col-sm-12">
-                                            {(editMode) ? <Button className="btn btn-sm btn-info " style={{ color: 'white', textDecoration: 'none', borderRadius: '3px' }} target="__blank"
-                                                onClick={editSubmit}>Submit</Button>
+                                            {(editMode) ? <button className="btn" onClick={editSubmit}>Submit</button>
                                                 :
-                                                <Button className="btn btn-sm btn-info " style={{ color: 'white', textDecoration: 'none', borderRadius: '3px' }} target="__blank"
-                                                    onClick={edit}>Edit</Button>
+                                                <button className="btn " onClick={edit}>Edit</button>
                                             }
                                         </div>
                                     </div>
@@ -276,7 +252,7 @@ function Profile(props) {
 
                             <div className="row gutters-sm progress-div">
                                 <div className="col-sm-6 progress1">
-                                    <div className="card" style={{ height: '100%', boxShadow: '2px 10px 20px rgba(0,0,0, 0.3)' }}>
+                                    <div className="card" style={{ height: '100%' }}>
                                         <div className="card-body">
                                             <h3 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }} ><i
                                                 className="material-icons text-info mr-2" style={{ marginTop: '0.5rem' }}>Assignment Status</i></h3>
@@ -314,7 +290,7 @@ function Profile(props) {
                                     </div>
                                 </div>
                                 <div className="col-sm-6 mb-3 progress2">
-                                    <div className="card h-100" style={{ height: '100%', boxShadow: '2px 10px 20px rgba(0,0,0, 0.3)' }}>
+                                    <div className="card h-100" style={{ height: '100%' }}>
                                         <div className="card-body">
                                             <h3 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
                                                 <i style={{ marginTop: '0.5rem' }} className="material-icons text-info mr-2">Assessment Status</i></h3>
@@ -372,7 +348,7 @@ function Profile(props) {
 //         email: state.authReducer.email,
 //         mobile: state.authReducer.mobile,
 //         isStudent: state.authReducer.is_student,
-//         profileImg: state.authReducer.profileImg,
+//         profile_img: state.authReducer.profile_img,
 //     };
 // };
 

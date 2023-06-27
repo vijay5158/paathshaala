@@ -5,6 +5,6 @@
 
 #card-link:hover {
     opacity: 100%;
-    box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.4);
+    /* box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.4); */
 
 }

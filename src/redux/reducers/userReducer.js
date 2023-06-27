@@ -54,7 +54,7 @@ export const useUser = () => {
         .then((res) => {
           const data = res.data;
           const userData = {
-            profileImg: data?.profile_img,
+            profile_img: data?.profile_img,
             name: data?.name,
             mobile: data?.mobile,
             email: data?.email,
@@ -92,7 +92,7 @@ export const useUser = () => {
           const userData = {
             name: res.data.name,
             mobile: res.data.mobile,
-            profileImg: res.data.profile_img,
+            profile_img: res.data.profile_img,
             error: null,
             loading: false,
             email: res.data.email,

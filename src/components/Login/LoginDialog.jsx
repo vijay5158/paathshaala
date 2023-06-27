@@ -1,9 +1,8 @@
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
 import { makeStyles } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/Close';
+import {MdClose} from 'react-icons/md';
 import React from 'react';
 import Signup from "./Signup";
 import './style.css';
@@ -40,7 +39,7 @@ export default function LoginDialog(props) {
 
             <Dialog fullScreen open={open} onClose={handleClose} >
                 <Link to="/" className='absolute left-[15px] top-[10px] z-[9]'><IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                    <CloseIcon />
+                    <MdClose />
                 </IconButton></Link>
 
                 <Signup onClose={setOpen} />

@@ -91,7 +91,7 @@ export const useAccessToken = () => {
 //   };
 // };
 
-export const authLogin = (email, password,setLoading) => {
+export const authLogin = (email, password, processDone, processFail) => {
   return async dispatch => {
    
 try {
@@ -117,27 +117,28 @@ try {
     // dispatch(checkAuthTimeout(36000));
     cookies.set('token', tokens?.access);
     cookies.set('refresh_token', tokens?.refresh);
-
+    processDone();
   }
   else{
     alert(res.data?.message);
     dispatch(authError({login:res.data?.message}));
+    processFail();
   }})
   .catch(err => {
     alert(err.message)
     dispatch(authError(err.message));
+    processFail();
   })
-  .finally(()=> setLoading(false))
 
 } catch (error) {
-  setLoading(false);
 alert('Error, Try again!');
+processFail();
 }
   };
 };
 
 
-export const authSignup = (userData,setLoading) => {
+export const authSignup = (userData, processDone, processFail) => {
   return async dispatch => {
   try {
     await AxiosInstance.post('register/', userData).then((res) => {
@@ -158,16 +159,16 @@ export const authSignup = (userData,setLoading) => {
       // dispatch(checkAuthTimeout(36000));
       cookies.set('token', tokens?.access);
       cookies.set('refresh_token', tokens?.refresh);
-
+      processDone()
     })
     .catch(err => {
       alert(err?.message)
       dispatch(authError(err?.message));
+      processFail();
     })
-    .finally(()=> setLoading(false))
-  
+      
   } catch (error) {
-    setLoading(false);
+    processFail();
     alert('Some Error occured!')
   }
   };

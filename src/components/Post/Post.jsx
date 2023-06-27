@@ -5,8 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
-    AddCommentRounded
-} from "@material-ui/icons";
+    BsSendPlusFill
+} from "react-icons/bs";
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import postbg from '../../images/postbg.jpg';
@@ -31,7 +31,7 @@ const useStyles1 = makeStyles((theme) => ({
         alignItems: 'center',
         flex: '1 0 auto',
         borderRadius: '10px',
-        boxShadow: 'box-shadow: 2px 10px 20px rgba(0,0,0, 0.4)'
+        boxShadow: 'box-shadow: 0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)'
     },
     cover: {
         width: 101,
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         margin: 'auto',
         // maxWidth: '60vw',
-        boxShadow: 'box-shadow: 2px 10px 20px rgba(0,0,0, 0.4)',
+        boxShadow: 'box-shadow: 0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
         backgroundImage: `url(${postbg})`
     },
     image: {
@@ -80,7 +80,8 @@ function Post({postData}) {
     const comments = postData?.comments;
     const commentKeys = Object.keys(comments);
     const classes = useStyles()
-    const handleCreateComment = () => {
+    const handleCreateComment = (e) => {
+        e.preventDefault();
       if (newComment !== '') {
         const newCommentData = {
           text: newComment,
@@ -111,32 +112,30 @@ function Post({postData}) {
                                     {/*<object data={props.file} width="300" height="200" type="">*/}
                                     {(postData.file) ?
                                         <PostData fileName={postData.file_name} file={postData?.file} />
-
-
                                         : null}
                                 </Typography>
                             </div>
                         </Grid>
                         <Grid item>
-                            <div className="comment-div" style={{ margin: '1rem', display: 'flex', flexDirection: 'row' }}>
-                                <Input id={"text" + postData.id} name="text" onChange={(e)=>setNewComment(e.target.value.trim())} fullWidth={true} placeholder="post a comment" />
-                                <Button type='reset'  onClick={handleCreateComment}>
-                                    <AddCommentRounded style={{ color: '#f74754' }} />
+                            <form className="comment-div" onClick={handleCreateComment} style={{ margin: '1rem', display: 'flex', flexDirection: 'row' }}>
+                                <Input value={newComment} id={"text" + postData.id} name="text" onChange={(e)=>setNewComment(e.target.value.trim())} fullWidth={true} placeholder="post a comment" />
+                                <Button type='submit'>
+                                    <BsSendPlusFill style={{ color: '#f74754' }} />
                                 </Button>
-                            </div>
+                            </form>
                             <br />
                             {commentKeys?.length > 0 &&
                             <div className="comment-count">
                                 <p>Comments</p>
                                 {(showComment) ?
                                     <Button onClick={()=> setShowComment(!showComment)} style={{
-                                        boxShadow: '2px 10px 20px rgba(0,0,0, 0.2)',
+                                        boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
                                         padding: '0.3rem',
                                         borderRadius: '0.3rem'
                                     }}><span style={{ fontSize: '0.8rem' }}
                                         className='projName'> Hide Comments</span></Button>
                                     : <Button onClick={()=> setShowComment(!showComment)} style={{
-                                        boxShadow: '2px 10px 20px rgba(0,0,0, 0.2)',
+                                        boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
                                         padding: '0.3rem',
                                         borderRadius: '0.3rem'
                                     }}><span style={{ fontSize: '0.8rem' }}

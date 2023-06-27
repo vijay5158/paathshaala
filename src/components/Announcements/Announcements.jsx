@@ -1,14 +1,15 @@
 import { Input } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
-import SendIcon from '@material-ui/icons/Send';
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom';
 import LoginDialog from "../Login/LoginDialog";
 import './style.css';
 import { createAnnouncement, getAnnouncements, getCurrentClass } from '../../redux/reducers/classReducer';
 import { useAccessToken } from '../../redux/reducers/authReducer';
 import { useUser } from '../../redux/reducers/userReducer';
+import { AiOutlineSend } from 'react-icons/ai';
+
 
 function Announcements(props) {
     const { slug } = useParams();
@@ -64,7 +65,7 @@ function Announcements(props) {
 
                         <div className="button-form">
                             <Button type="reset" onClick={handleSubmit} >
-                                <SendIcon style={{ color: '#f74754' }} />
+                                <AiOutlineSend style={{ color: '#f74754' }} />
                             </Button>
                         </div>
                     </form>

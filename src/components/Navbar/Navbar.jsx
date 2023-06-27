@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 // import './profile.css'
 import { makeStyles } from '@material-ui/core/styles';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import {FaUserAlt} from 'react-icons/fa';
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
@@ -53,7 +53,11 @@ const Navbar = (props) => {
         },
         sideBarButton: {
             Color: '#d14467',
-            fontSize: '30px'
+            fontSize: '40px',
+            color: 'rgb(88, 65, 139)',
+            border: '3px solid rgb(88, 65, 139)',
+            padding: '0.3rem',
+            borderRadius: '50%'
 
         },
     }));
@@ -90,7 +94,7 @@ const Navbar = (props) => {
                 <div className="rightNav v-class-resp">
                     {token ? <div className='rightNavResp'>
                         <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                            <AccountCircle style={{ color: 'rgb(88,65,139)' }} className={classes.sideBarButton} />
+                            <FaUserAlt className={classes.sideBarButton} />
                         </Button>
                         <Menu
                             id="simple-menu"

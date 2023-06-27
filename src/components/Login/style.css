@@ -64,32 +64,42 @@ form.sign-in-form {
 .input-field {
     max-width: 380px;
     width: 100%;
+    align-items: center;
     background-color: #f0f0f0;
     margin: 10px 0;
     height: 55px;
     border-radius: 55px;
     display: grid;
-    grid-template-columns: 15% 85%;
+    grid-template-columns: 10% 90%;
     padding: 0 0.4rem;
     position: relative;
+    transition: all ease-in-out 0.2s;
+    overflow: hidden;
 }
 
-.input-field i {
+.input-field svg {
     text-align: center;
     line-height: 55px;
     color: #acacac;
     transition: 0.5s;
     font-size: 1.1rem;
+    margin-left: 10px;
 }
 
 .input-field input {
     background: none;
     outline: none;
+    height: 100%;
     border: none;
     line-height: 1;
     font-weight: 600;
     font-size: 1.1rem;
     color: #333;
+    padding:0.5rem
+}
+
+.input-field:focus-within{
+    border: 1px solid #3a30b7;
 }
 
 .input-field input::placeholder {

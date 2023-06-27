@@ -1,8 +1,6 @@
 import { Container, Input } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import CloseIcon from '@material-ui/icons/Close';
-import SendIcon from '@material-ui/icons/Send';
 import FormData from 'form-data';
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
@@ -15,6 +13,8 @@ import { useRef } from 'react';
 import { getCurrentClass } from '../../redux/reducers/classReducer';
 import { createPost, usePosts } from '../../redux/reducers/postReducer';
 import { Spinner } from 'react-bootstrap';
+import { MdClose } from 'react-icons/md';
+import { AiOutlineSend } from 'react-icons/ai';
 
 
 
@@ -56,7 +56,6 @@ const Posts = (props) => {
     const [expand, setExpand] = useState(false);
     const initialFormData = Object.freeze({
         text: '',
-        classroom: classData?.id
     });
     const [postData, updatePostData] = useState(initialFormData);
     const [postImage, setPostImage] = useState(null);
@@ -75,18 +74,25 @@ const Posts = (props) => {
         });
     };
     const handleSubmit = (event) => {
-        if (postData.text !=="" && postImage){
+        if (postData.text !==""){
             setLoading(true);
-        let post = new FormData();
+          let post = new FormData();
         post.append('text', postData.text);
-        post.append('classroom', postData.classroom);
+        post.append('classroom', classData.id);
+        if(postImage && postImage?.file?.length>0){
         post.append('file', postImage.file[0]);
         post.append('file_name', postImage.file_name);
+        }
+        dispatch(createPost(accessToken, post,handleLoading));
 
-        dispatch(createPost(accessToken, post,setLoading));
-
-        setExpand(false)
     }
+    else{
+        alert('Please fill text!');
+    }
+}
+const handleLoading = ()=>{
+    setLoading(false);
+    setExpand(false)
 }
     const classes = useStyles();
     classes.cardContent = undefined;
@@ -111,11 +117,11 @@ const Posts = (props) => {
                             {(expand) ?
                                 <div className="button-form">
                                     <Button type="reset" disabled={loading} onClick={handleSubmit} >
-                                        <SendIcon style={{ color: '#f74754' }} />
+                                        <AiOutlineSend className='text-[#f74754] text-xl' />
                                     {loading && <Spinner />}
                                     </Button>
                                     <Button onClick={() => setExpand(false)}>
-                                        <CloseIcon style={{ color: '#f74754' }} />
+                                        <MdClose className='text-[#f74754] text-xl' />
                                     </Button>
                                 </div>
                                 : null}

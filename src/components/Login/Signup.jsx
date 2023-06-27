@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { authLogin, authSignup } from "../../redux/reducers/authReducer";
+import { Spinner } from "react-bootstrap";
+import { AiOutlineUser } from "react-icons/ai";
+import { MdEmail, MdPassword } from "react-icons/md";
+import { BsFillTelephoneFill } from "react-icons/bs";
 
 const handleSlideSignup = () => {
     const sign_in_btn = document.querySelector("#sign-in-btn");
@@ -25,16 +29,14 @@ function Signup(props) {
 
     const navigate = useNavigate();
     const initialFormDataSignup = Object.freeze({
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
         mobile: '',
         password: '',
         userType: ''
     })
     const lastFormDataSignup = Object.freeze({
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
         mobile: '',
         password: '',
@@ -47,26 +49,35 @@ function Signup(props) {
             [event.target.name]: event.target.value.trim(),
         });
     };
+    const processDone = ()=>{
+        setLoading(false);
+        handleClose();
+        navigate("/classes");
+    }
+    const processFail = ()=>{
+        setLoading(false);
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault()
         let is_student = false;
         let is_teacher = true;
-        const { firstName, lastName, email, mobile, password, userType } = formDataSignup;
-        const name = firstName+" "+lastName;
+        const { name, email, mobile, password, userType } = formDataSignup;
+
         if (email?.length > 0 && password?.length > 0 && name?.length > 0 && mobile?.length === 10){
         if (userType === "student") {
             is_student = true
             is_teacher = false
         }
-        dispatch(authSignup({name, email, mobile, password, is_student, is_teacher},setLoading));
-        setFormDataSignup(lastFormDataSignup);
-        navigate('/');
-        handleClose();
+        dispatch(authSignup({name, email, mobile, password, is_student, is_teacher},processDone,processFail));
+        setFormDataSignup(lastFormDataSignup);        
     }
     else {
         alert('Please fill all data or data is incorrect!');
       }
     }
+
+
     const signupContainer = document.querySelector('#signupContainer')
     useEffect(handleSlideSignup, [signupContainer])
     const initialFormDataLogin = Object.freeze({
@@ -91,11 +102,9 @@ function Signup(props) {
         event.preventDefault()
         setLoading(true);
         const { email, password } = formDataLogin;
-        dispatch(authLogin(email, password, setLoading));
+        dispatch(authLogin(email, password, processDone, processFail));
 
         setFormDataLogin(lastFormDataLogin);
-        handleClose();
-        navigate('/');
     }
 
     const loginContainer = document.querySelector('#loginContainer')
@@ -109,23 +118,19 @@ function Signup(props) {
                         <form action="/" className="sign-up-form">
                             <h2 className="title">Sign up</h2>
                             <div className="input-field">
-                                <i className="fas fa-user"></i>
-                                <input type="text" onChange={handleChangeSignup} id="firstName" name="firstName" placeholder="first name" />
+                                <AiOutlineUser />
+                                <input type="text" onChange={handleChangeSignup} id="name" name="name" placeholder="Enter Name" />
                             </div>
                             <div className="input-field">
-                                <i className="fas fa-user"></i>
-                                <input type="text" id="lastName" onChange={handleChangeSignup} name="lastName" placeholder="last name" />
-                            </div>
-                            <div className="input-field">
-                                <i className="fas fa-envelope"></i>
+                                <MdEmail />
                                 <input type="email" id="email" onChange={handleChangeSignup} name="email" placeholder="Email" />
                             </div>
                             <div className="input-field">
-                                <i className="fas fa-envelope"></i>
+                                <BsFillTelephoneFill />
                                 <input type="num" onChange={handleChangeSignup} id="mobile" name="mobile" placeholder="mobile number" />
                             </div>
                             <div className="input-field">
-                                <i className="fas fa-lock"></i>
+                                <MdPassword />
                                 <input type="password" onChange={handleChangeSignup} id="password" name="password" placeholder="Password" />
                             </div>
                             <FormControl >
@@ -137,15 +142,18 @@ function Signup(props) {
                                     name="userType"
 
                                 >
-                                    <option aria-label="None" value="" />
+                                    <option disabled aria-label="None" value="" />
                                     <option value="student">Student</option>
                                     <option value="teacher">Teacher</option>
                                 </NativeSelect>
                                 <FormHelperText>please select accordingly.</FormHelperText>
                             </FormControl>
 
-                            <input type="submit" className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)]" onClick={handleSubmit} value="Sign up" />
-                            <p className="social-text">Or Sign up with social platforms</p>
+                            <button type="submit" className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)]" onClick={handleSubmit}>
+                            Take Off!
+                                {loading && <Spinner className="mx-2" size="sm" animation="border" variant="dark" />}
+                            </button>
+                            {/* <p className="social-text">Or Sign up with social platforms</p>
                             <div className="social-media">
                                 <a href="#" className="social-icon">
                                     <i className="fab fa-facebook-f"></i>
@@ -159,19 +167,22 @@ function Signup(props) {
                                 <a href="#" className="social-icon">
                                     <i className="fab fa-linkedin-in"></i>
                                 </a>
-                            </div>
+                            </div> */}
                         </form>
                         <form action="#" className="sign-in-form">
                             <h2 className="title">Login</h2>
                             <div className="input-field">
-                                <i className="fas fa-user"></i>
+                                <MdEmail />
                                 <input type="email" id="email1" onChange={handleChangeLogin} name="email" placeholder="Email" />
                             </div>
                             <div className="input-field">
-                                <i className="fas fa-lock"></i>
+                                <MdPassword />
                                 <input type="password" onChange={handleChangeLogin} name="password" placeholder="Password" />
                             </div>
-                            <input type="submit" value="Login" disabled={loading} onClick={handleSubmitLogin} className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] solid" />
+                            <button type="submit" disabled={loading} onClick={handleSubmitLogin} className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] solid">
+                                Launch
+                            {loading && <Spinner className="mx-2" />}
+                                </button>
                             <p className="social-text">Or Sign in with social platforms</p>
                             <div className="social-media">
                                 <a href="#" className="social-icon">
@@ -197,8 +208,7 @@ function Signup(props) {
                         <div className="content">
                             <h3>New here ?</h3>
                             <p>
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-                                ex ratione. Aliquid!
+                                Create virtual PaathShaala for yourself!
                             </p>
                             <button onClick={handleSlideSignup} className="btn transparent" id="sign-up-btn">
                                 Sign up
@@ -210,11 +220,10 @@ function Signup(props) {
                         <div className="content">
                             <h3>One of us ?</h3>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                                laboriosam ad deleniti.
+                                Login to your PaathShaala
                             </p>
                             <button className="btn transparent" id="sign-in-btn">
-                                Sign in
+                                Login in
                             </button>
                         </div>
                         <img src="img/register.svg" className="image" alt="" />

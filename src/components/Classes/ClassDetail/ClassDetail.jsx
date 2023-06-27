@@ -2,22 +2,19 @@ import { Card, CardActions, Container, Input } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
-import CloseIcon from '@material-ui/icons/Close';
-import SendIcon from '@material-ui/icons/Send';
 import FormData from 'form-data';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Cardbg from '../../../images/classcardbg.jpg';
 import Loader from "../../Loader/Loader";
-import Post from "../../Post/Post";
 import './cardStyle.css';
-import SideBar from "./SideBar";
 import { getClasses, getCurrentClass, getCurrentClassSuccess, useClassLoading } from "../../../redux/reducers/classReducer";
 import { createCommentSuccess, createPost, createPostSuccess, usePosts } from "../../../redux/reducers/postReducer";
 import { useAccessToken } from "../../../redux/reducers/authReducer";
 import { useUser } from "../../../redux/reducers/userReducer";
 import Posts from "../../Post/Posts";
+import CopyButton from "./CopyButton";
 
 
 
@@ -207,11 +204,6 @@ function ClassDetail(props) {
                                 <h2 className="projName" style={{ color: '#58418b', fontSize: '2rem' }}>
                                     {currentClass.subject}
                                 </h2>
-                                {(!userData?.is_student) ? <p style={{ color: 'gray', fontSize: '0.8rem' }}>
-                                    Class code: {currentClass.slug}
-                                </p> : <p style={{ color: 'gray', fontSize: '0.8rem' }}>
-                                    Class Teacher: {currentClass.teacher}
-                                </p>}
 
                                 {/*    <Typography variant="body2" component="p">*/}
                                 {/*        well meaning and kindly.*/}
@@ -220,7 +212,15 @@ function ClassDetail(props) {
                                 {/*    </Typography>*/}
                             </CardContent>
                             <CardActions>
+                                <div className="w-full flex justify-between items-center">
                                 <Button size="small" onClick={refresh}>Refresh</Button>
+                                {(!userData?.is_student) ? <p style={{ color: 'gray', fontSize: '0.8rem' }}>
+                                    {/* Class code: {currentClass.slug} */}
+                                    <CopyButton text={currentClass?.slug} />
+                                </p> : <p style={{ color: 'gray', fontSize: '0.8rem' }}>
+                                    Class Teacher: {currentClass.teacher}
+                                </p>}
+                                </div>
                             </CardActions>
                         </Card>
                     </div>
@@ -252,7 +252,7 @@ function ClassDetail(props) {
                                             : null}
                                     </form>
                                 </div> : null}
-                            {posts.map((post, index) => <Post key={index} firstName={post.user.first_name} slug={slug} lastName={post.user.last_name} profileImg={post.user.profile_img} text={post.text} file_name={post.file_name} file={post.file} user={post.user} date={post.date} time={post.time} post_id={post.id} />)}
+                            {posts.map((post, index) => <Post key={index} firstName={post.user.first_name} slug={slug} lastName={post.user.last_name} profile_img={post.user.profile_img} text={post.text} file_name={post.file_name} file={post.file} user={post.user} date={post.date} time={post.time} post_id={post.id} />)}
                         </Container> */}
                         <Posts />
                     </div>
