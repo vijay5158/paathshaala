@@ -28,9 +28,7 @@ const Classes = (props) => {
     useEffect(() => {
         window.scrollTo(0, 0)
         if (token) {
-            if (classes?.length === 0) {
                 dispatch(getClasses(token));
-            }
         }
     }, []);
 

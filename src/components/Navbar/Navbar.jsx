@@ -11,13 +11,14 @@ import { Link } from 'react-router-dom';
 import logo from "../../images/logo1.png";
 import Login from '../Login/LoginDialog';
 import './style.css';
-import { authLogout, useAccessToken } from '../../redux/reducers/authReducer';
+import { authLogout, useAccessToken, useRefreshToken } from '../../redux/reducers/authReducer';
 
 
 
 const Navbar = (props) => {
     const dispatch = useDispatch();
     const token = useAccessToken();
+    const refreshToken = useRefreshToken();
     const scripts = () => {
         const burger = document.querySelector('.burger')
         const navbar = document.querySelector('.navbar')
@@ -71,7 +72,7 @@ const Navbar = (props) => {
     const handleCloseLogout = (event) => {
         event.preventDefault();
         setAnchorEl(null);
-        dispatch(authLogout())
+        dispatch(authLogout(token, refreshToken))
     }
     const handleClose = () => {
         setAnchorEl(null);

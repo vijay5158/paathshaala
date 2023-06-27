@@ -79,7 +79,7 @@ function ClassDetail(props) {
     const currentClass = getCurrentClass();
     useEffect(() => {
         window.scrollTo(0, 0)
-        dispatch(getCurrentClassSuccess(accessToken,slug));
+        dispatch(getCurrentClassSuccess(accessToken,slug, navigate));
         // dispatch(getPost(userData?.token, slug));
         // dispatch(getComment(userData?.token, slug));
         // dispatch(getAnmnt(userData?.token, slug));
@@ -173,6 +173,7 @@ function ClassDetail(props) {
 
         setExpand(false)
     }
+   
     const classes = useStyles();
     classes.cardContent = undefined;
     classes.card = undefined;
@@ -180,16 +181,10 @@ function ClassDetail(props) {
         // dispatch(getPost(accessToken, slug));
         // dispatch(getComment(userData?.token, slug));
     }
-
-    if (Classes.length === 0) {
-        navigate('/')
-        window.location.reload();
-    }
-    else {
-        if (props.loading) {
+    if (props.loading) {
             return (<Loader />)
         }
-        else {
+    else {
             return (
                 <>
                     {/* <SideBar slug={slug} isStudent={userData?.is_student} /> */}
@@ -218,7 +213,7 @@ function ClassDetail(props) {
                                     {/* Class code: {currentClass.slug} */}
                                     <CopyButton text={currentClass?.slug} />
                                 </p> : <p style={{ color: 'gray', fontSize: '0.8rem' }}>
-                                    Class Teacher: {currentClass.teacher}
+                                    Class Teacher: {currentClass?.teacher?.name}
                                 </p>}
                                 </div>
                             </CardActions>
@@ -259,7 +254,7 @@ function ClassDetail(props) {
                 </>
             )
         }
-    }
+    
 }
 
 // const mapStateToProps = state => {

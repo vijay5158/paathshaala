@@ -190,7 +190,7 @@ export const deleteCLS = (token, data) => {
 
 
 
-export const getCurrentClassSuccess = (token, slug) => {
+export const getCurrentClassSuccess = (token, slug, navigate) => {
     return dispatch => {
         dispatch(setCurrentClass({class_name:"loading", standard:"loading", subject:"loading"}));
         dispatch(setPostSuccess([]));
@@ -208,6 +208,7 @@ export const getCurrentClassSuccess = (token, slug) => {
             })
             .catch(err => {
                 alert(err?.message);
+                navigate("/classes")
             });
 
     };

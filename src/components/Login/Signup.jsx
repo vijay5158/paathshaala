@@ -40,7 +40,7 @@ function Signup(props) {
         email: '',
         mobile: '',
         password: '',
-        userType: ''
+        userType: 'student'
     })
     const [formDataSignup, setFormDataSignup] = useState(initialFormDataSignup);
     const handleChangeSignup = (event) => {
@@ -64,7 +64,7 @@ function Signup(props) {
         let is_teacher = true;
         const { name, email, mobile, password, userType } = formDataSignup;
 
-        if (email?.length > 0 && password?.length > 0 && name?.length > 0 && mobile?.length === 10){
+        if (email?.length > 0 && password?.length > 0 && name?.length > 0 && mobile?.length > 0){
         if (userType === "student") {
             is_student = true
             is_teacher = false
@@ -136,13 +136,12 @@ function Signup(props) {
                             <FormControl >
                                 <InputLabel htmlFor="age-native-helper">Are you ?</InputLabel>
                                 <NativeSelect
-
+                                    defaultValue={"0"}
                                     onChange={handleChangeSignup}
                                     id='age-native-helper'
                                     name="userType"
-
                                 >
-                                    <option disabled aria-label="None" value="" />
+                                    <option disabled aria-label="None" value="0" />
                                     <option value="student">Student</option>
                                     <option value="teacher">Teacher</option>
                                 </NativeSelect>

@@ -6,11 +6,12 @@ import Cookies from "universal-cookie";
 
 const cookies=new Cookies();
 const token= cookies.get('token')
+const refreshToken= cookies.get('refresh_token')
 
 const initialState = {
   isAuthenticated: false,
   accessToken: token,
-  refreshToken: null,
+  refreshToken: refreshToken,
   errors: {},
   loading:false,
 };
@@ -67,18 +68,37 @@ export const useAuthentication = () => {
 export const useAccessToken = () => {
     return useSelector((root) => root.authReducer.accessToken);
   };
+export const useRefreshToken = () => {
+    return useSelector((root) => root.authReducer.refreshToken);
+  };
   export const useLoading = () => {
     return useSelector((root) => root.authReducer.loading);
   };
 
-  export const authLogout = () => {
+  export const authLogout = (accessToken, refreshToken) => {
     return async dispatch => {
-      dispatch(logout());
-      dispatch(unSetUserInfo());
-      localStorage.removeItem("classConnections");
-      cookies.remove('token');
-      cookies.remove('refresh_token');
-      AxiosInstance.defaults.headers['Authorization'] = null;
+try {
+  AxiosInstance.defaults.headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${accessToken}`
+};
+  AxiosInstance.post('logout/', {
+    refresh_token:refreshToken
+  }).then((res)=>{
+    dispatch(logout());
+    dispatch(unSetUserInfo());
+    cookies.remove('token');
+    cookies.remove('refresh_token');
+    AxiosInstance.defaults.headers['Authorization'] = null;
+
+  })
+  .catch((e)=>{
+    alert("Error occured, Try again!");
+  })
+
+} catch (error) {
+  alert("Error occured, Try again!");
+}      
       
     }
   }
