@@ -5,6 +5,7 @@ materials and take assessments and announce anything. It is built using React/Re
 
 # Here is the backend
 [Backend](https://github.com/vijay5158/liveroom-backend/)
+[Frontend old repo](https://github.com/vijay5158/liveroom-frontend/)
 
 # Project Status
 This project is currently in development. Here are some more upcoming features-
