@@ -4,13 +4,11 @@ import About2 from '../../images/about2.gif';
 import About3 from '../../images/about3.gif';
 import About4 from '../../images/about4.gif';
 import './style.css';
-import { Fade } from 'react-awesome-reveal';
 
 
 function About() {
     return (
         <div>
-           <Fade left duration={2000} distance="40px">
             <section className="section">
                 <div className="paras">
                     <p className="sectionTag text-small">Manage</p>
@@ -30,8 +28,6 @@ function About() {
                         className="imgFluid" />
                 </div>
             </section>
-            </Fade>
-            <Fade right duration={2000} distance="40px">
             <section className="section section-left" id="about">
                 <div className="paras">
                     <p className="sectionTag text-small">MEASURE</p>
@@ -54,8 +50,6 @@ function About() {
                         className="imgFluid" />
                 </div>
             </section>
-            </Fade>
-            <Fade left duration={2000} distance="40px">
             <section className="section" id="services">
                 <div className="paras">
                     <p className="sectionTag text-small">COLLABORATE</p>
@@ -79,8 +73,6 @@ function About() {
                         className="imgFluid" />
                 </div>
             </section>
-            </Fade>
-            <Fade right duration={2000} distance="40px">
             <section className="section section-left" id="about">
                 <div className="paras">
                     <p className="sectionTag text-small">SECURE
@@ -107,7 +99,6 @@ function About() {
                         className="imgFluid" />
                 </div>
             </section>
-            </Fade>
 
         </div>
     );
