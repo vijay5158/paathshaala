@@ -65,7 +65,9 @@ const Classes = (props) => {
                                 borderRadius='10px'
                             >
 
-                                {classes.map((cls, index) => <Class key={index} classData={cls} />)}
+                                {classes.map((cls, index) => (
+                                <Class key={index} classData={cls} />
+                                ))}
 
                             </Box>}
                         <button className='fixed right-[2%] mt-[1rem] z-10 rounded-full p-2 bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] shadow-lg' aria-controls="simple-menu" aria-haspopup="true"

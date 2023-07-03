@@ -87,8 +87,9 @@ try {
   }).then((res)=>{
     dispatch(logout());
     dispatch(unSetUserInfo());
-    cookies.remove('token');
-    cookies.remove('refresh_token');
+    const newCookies=new Cookies();
+    newCookies.remove('token');
+    newCookies.remove('refresh_token');
     AxiosInstance.defaults.headers['Authorization'] = null;
 
   })

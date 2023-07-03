@@ -82,15 +82,15 @@ const Navbar = (props) => {
             <nav className="navbar nav background1 h-nav-resp sm:h-[70px] px-4">
                 <ul className="nav-list justify-end sm:justify-start w-[100%] gap-2 v-class-resp h-full">
                   <div className="hidden sm:contents h-full">
-                    <div className="logo h-full">
+                  <Link to="/" className="logo h-full">
                         <img src={logo} alt="logo" className='h-[60px]' />
-                        <h6 className='text-xl text-[#58418b] font-semibold'>PaathShaala</h6>
+                        {/* <h6 className='text-xl text-[#58418b] font-semibold'>PaathShaala</h6> */}
+                    </Link>
                     </div>
-                    </div>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/classes/">Classes</Link></li>
+                    {/* <li><Link to="/">Home</Link></li> */}
+                  {token && <li><Link to="/classes/">Classes</Link></li>}
 
-                    <li><Link to="/to-do/">To-Do</Link></li>
+                    {/* <li><Link to="/to-do/">To-Do</Link></li> */}
                 </ul>
                 <div className="rightNav v-class-resp">
                     {token ? <div className='rightNavResp'>

@@ -1,8 +1,9 @@
 import axios from "axios";
 
-
+const live = "https://api.paathshaala.me/api/"
+const local = "http://localhost:8000/api/"
 const AxiosInstance = axios.create({
-    baseURL: "https://api.paathshaala.me/api/"
+    baseURL: local
  })
 
 export default AxiosInstance;

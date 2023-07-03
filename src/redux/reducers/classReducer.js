@@ -12,7 +12,9 @@ const initialState = {
     currentClass: {class_name:"loading", standard:"loading", subject:"loading"},
     announcements: [],
     error: null,
-    loading: false
+    loading: false,
+    next: null,
+    count: 0
 };
 
 export const classSlice = createSlice({
@@ -25,10 +27,12 @@ export const classSlice = createSlice({
       state.loading = false;
     },
     getCLSListSuccess: (state,action) => {
-        state.classes = action.payload
+        state.classes = action.payload.results
+        state.next = action.payload.next
+        state.count = action.payload.count
     },
     getAnmntListSuccess: (state,action) => {
-        state.announcements = action.payload.reverse();
+        state.announcements = action.payload.results?.reverse();
     },
     createAnmntSuccess: (state,action) => {
         state.announcements = [action.payload,...state.announcements]
@@ -74,10 +78,10 @@ export const getClasses = token => {
             Authorization: `Bearer ${token}`
         };
         AxiosInstance
-            .get("classes/")
+            .get("classes/?limit=10")
             .then(res => {
-                const classes = res.data;
-                dispatch(getCLSListSuccess(classes));
+                const data = res.data;
+                dispatch(getCLSListSuccess(data));
             })
             .catch(err => {
                 alert(err?.message);
@@ -92,7 +96,7 @@ export const getAnnouncements = (token,slug) => {
             Authorization: `Bearer ${token}`
         };
         AxiosInstance
-            .get(`announcement/${slug}`)
+            .get(`announcement/${slug}/?limit=20`)
             .then(res => {
                 const announcements = res.data;
                 dispatch(getAnmntListSuccess(announcements));
@@ -104,21 +108,28 @@ export const getAnnouncements = (token,slug) => {
 };
 
 
-export const createAnnouncement = (token, Anmnt) => {
+export const createAnnouncement = (token, Anmnt,handleLoading) => {
     return dispatch => {
-        AxiosInstance.defaults.headers = {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        };
-        AxiosInstance.post(`announcement/`, Anmnt)
-            .then(res => {
-
-                const announcement = res.data
-                dispatch(createAnmntSuccess(announcement));
-            })
-            .catch(err => {
-                alert(err?.message)
-            });
+        try {
+            AxiosInstance.defaults.headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            };
+            AxiosInstance.post(`announcement/`, Anmnt)
+                .then(res => {
+    
+                    // const announcement = res.data
+                    // dispatch(createAnmntSuccess(announcement));
+                })
+                .catch(err => {
+                    alert(err?.message)
+                })
+                .finally(()=> handleLoading());
+                
+        } catch (error) {
+            handleLoading();
+            alert('Try again!')
+        }
     };
 };
 
@@ -193,7 +204,7 @@ export const deleteCLS = (token, data) => {
 export const getCurrentClassSuccess = (token, slug, navigate) => {
     return dispatch => {
         dispatch(setCurrentClass({class_name:"loading", standard:"loading", subject:"loading"}));
-        dispatch(setPostSuccess([]));
+        // dispatch(setPostSuccess([]));
         AxiosInstance.defaults.headers = {
             Authorization: `Bearer ${token}`
         };
@@ -202,7 +213,7 @@ export const getCurrentClassSuccess = (token, slug, navigate) => {
             .get(url)
             .then(res => {
                 const classData = res.data;
-                dispatch(setPostSuccess(classData?.posts));
+                // dispatch(setPostSuccess(classData?.posts));
                 dispatch(setCurrentClass(classData))
 // console.log(classData);
             })
@@ -214,29 +225,38 @@ export const getCurrentClassSuccess = (token, slug, navigate) => {
     };
 };
 
-export const MarkAttendance = (token, formData) => {
+export const MarkAttendance = (token, formData, setLoading) => {
     return dispatch => {
-        AxiosInstance.defaults.headers = {
-            Authorization: `Bearer ${token}`
-        };
-        const url = `mark-attendance/`
-        AxiosInstance
-            .post(url,formData)
-            .then(res => {
-                const data = res.data;
-                if(data.success){
-                    alert(data.msg);
-                }
-                else{
-                    alert(data.msg);
-                }
-            })
-            .catch(err => {
-                alert(err?.message);
-            });
+        try {
+            AxiosInstance.defaults.headers = {
+                Authorization: `Bearer ${token}`
+            };
+            const url = `mark-attendance/`
+            AxiosInstance
+                .post(url,formData)
+                .then(res => {
+                    const data = res.data;
+                    if(data.success){
+                        alert(data.msg);
+                    }
+                    else{
+                        alert(data.msg);
+                    }
+                })
+                .catch(err => {
+                    alert(err?.message);
+                })
+                .finally(()=>{
+                    setLoading(false);
+                })
+                
+        } catch (error) {
+            setLoading(false);
+        }
 
     };
 };
+
 
 
 export default classSlice.reducer;

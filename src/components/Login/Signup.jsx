@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, InputLabel, NativeSelect } from "@material-ui/core";
+import { CircularProgress, FormControl, FormHelperText, InputLabel, NativeSelect } from "@material-ui/core";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
@@ -7,6 +7,7 @@ import { Spinner } from "react-bootstrap";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
+import { green } from "@material-ui/core/colors";
 
 const handleSlideSignup = () => {
     const sign_in_btn = document.querySelector("#sign-in-btn");
@@ -150,7 +151,7 @@ function Signup(props) {
 
                             <button type="submit" className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)]" onClick={handleSubmit}>
                             Take Off!
-                                {loading && <Spinner className="mx-2" size="sm" animation="border" variant="dark" />}
+                                {loading && <CircularProgress size={14} color="light" />}
                             </button>
                             {/* <p className="social-text">Or Sign up with social platforms</p>
                             <div className="social-media">
@@ -172,15 +173,15 @@ function Signup(props) {
                             <h2 className="title">Login</h2>
                             <div className="input-field">
                                 <MdEmail />
-                                <input type="email" id="email1" onChange={handleChangeLogin} name="email" placeholder="Email" />
+                                <input type="email" id="email1" onChange={handleChangeLogin} value={formDataLogin?.email} name="email" placeholder="Email" />
                             </div>
                             <div className="input-field">
                                 <MdPassword />
-                                <input type="password" onChange={handleChangeLogin} name="password" placeholder="Password" />
+                                <input type="password" onChange={handleChangeLogin} value={formDataLogin?.password} name="password" placeholder="Password" />
                             </div>
                             <button type="submit" disabled={loading} onClick={handleSubmitLogin} className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] solid">
                                 Launch
-                            {loading && <Spinner className="mx-2" />}
+                            {loading &&  <CircularProgress size={14} color="light" />}
                                 </button>
                             <p className="social-text">Or Sign in with social platforms</p>
                             <div className="social-media">

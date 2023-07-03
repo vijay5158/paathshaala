@@ -1,4 +1,4 @@
-import { Button, Input } from "@material-ui/core";
+import { Button, CircularProgress, Input } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -31,7 +31,7 @@ const useStyles1 = makeStyles((theme) => ({
         alignItems: 'center',
         flex: '1 0 auto',
         borderRadius: '10px',
-        boxShadow: 'box-shadow: 0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)'
+        boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)'
     },
     cover: {
         width: 101,
@@ -76,6 +76,7 @@ function Post({postData}) {
     const [newComment, setNewComment] = useState('');
     const [showComment, setShowComment] = useState(false);
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const accessToken = useAccessToken();
     const comments = postData?.comments;
     const commentKeys = Object.keys(comments);
@@ -83,13 +84,18 @@ function Post({postData}) {
     const handleCreateComment = (e) => {
         e.preventDefault();
       if (newComment !== '') {
+        setLoading(true);
+
         const newCommentData = {
           text: newComment,
           post: postData.id,
         };
-        dispatch(createComment(accessToken, newCommentData, setNewComment));
+        dispatch(createComment(accessToken, newCommentData, setNewComment, handleLoading));
       }
     };
+    const handleLoading = ()=>{
+        setLoading(false);
+    }
       return (
         <>
             <div className={classes.root}>
@@ -117,10 +123,12 @@ function Post({postData}) {
                             </div>
                         </Grid>
                         <Grid item>
-                            <form className="comment-div" onClick={handleCreateComment} style={{ margin: '1rem', display: 'flex', flexDirection: 'row' }}>
+                            <form className="comment-div" onSubmit={handleCreateComment} style={{ margin: '1rem', display: 'flex', flexDirection: 'row' }}>
                                 <Input value={newComment} id={"text" + postData.id} name="text" onChange={(e)=>setNewComment(e.target.value.trim())} fullWidth={true} placeholder="post a comment" />
-                                <Button type='submit'>
-                                    <BsSendPlusFill style={{ color: '#f74754' }} />
+                                <Button type='submit' disabled={loading}>
+                                    
+                                    {loading ? <CircularProgress size={14} color="light" /> : <BsSendPlusFill style={{ color: '#f74754' }} />}
+
                                 </Button>
                             </form>
                             <br />

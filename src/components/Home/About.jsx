@@ -4,7 +4,7 @@ import About2 from '../../images/about2.gif';
 import About3 from '../../images/about3.gif';
 import About4 from '../../images/about4.gif';
 import './style.css';
-import { Fade } from 'react-reveal';
+import { Fade } from 'react-awesome-reveal';
 
 
 function About() {

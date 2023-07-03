@@ -1,4 +1,4 @@
-import { Container, Input } from '@material-ui/core';
+import { CircularProgress, Container, Input } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import FormData from 'form-data';
@@ -74,6 +74,7 @@ const Posts = (props) => {
         });
     };
     const handleSubmit = (event) => {
+        event.preventDefault()
         if (postData.text !==""){
             setLoading(true);
           let post = new FormData();
@@ -104,7 +105,7 @@ const handleLoading = ()=>{
 
                     <div className="add-post">
 
-                        <form action="" encType="multipart/form-data" className="add-form">
+                        <form action="" encType="multipart/form-data"  onSubmit={handleSubmit} className="add-form">
                             <div className="input-form">
 
                                 <Input placeholder={(expand) ? "Enter Text" : "Click to add post."} autoFocus={(expand)} onChange={handleChange} onClick={() => setExpand(true)} name="text" fullWidth={true} multiline={(expand) ? true : false} rows={2} />
@@ -116,9 +117,9 @@ const handleLoading = ()=>{
                             </div>
                             {(expand) ?
                                 <div className="button-form">
-                                    <Button type="reset" disabled={loading} onClick={handleSubmit} >
-                                        <AiOutlineSend className='text-[#f74754] text-xl' />
-                                    {loading && <Spinner />}
+                                    <Button type="submit" disabled={loading} >
+                                        
+                                    {loading ? <CircularProgress size={14} color="light" /> : <AiOutlineSend className='text-[#f74754] text-xl' />}
                                     </Button>
                                     <Button onClick={() => setExpand(false)}>
                                         <MdClose className='text-[#f74754] text-xl' />

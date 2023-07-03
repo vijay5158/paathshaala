@@ -1,22 +1,23 @@
-import { Input } from '@material-ui/core';
+import { Avatar, CircularProgress, Input } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom';
-import LoginDialog from "../Login/LoginDialog";
+import LoginDialog from "../../../../Login/LoginDialog";
 import './style.css';
-import { createAnnouncement, getAnnouncements, getCurrentClass } from '../../redux/reducers/classReducer';
-import { useAccessToken } from '../../redux/reducers/authReducer';
-import { useUser } from '../../redux/reducers/userReducer';
-import { AiOutlineSend } from 'react-icons/ai';
+import { createAnnouncement, getAllAnnouncements, getCurrentClass } from '../../../../../redux/reducers/classReducer';
+import { useAccessToken } from '../../../../../redux/reducers/authReducer';
+import { useUser } from '../../../../../redux/reducers/userReducer';
+import { BsSendPlusFill } from 'react-icons/bs';
 
 
 function Announcements(props) {
     const { slug } = useParams();
     const accessToken = useAccessToken();
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const userData = useUser();
-    const announcements = getAnnouncements();
+    const announcements = getAllAnnouncements();
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -37,14 +38,26 @@ function Announcements(props) {
 
     }
     const handleSubmit = (e) => {
-        dispatch(createAnnouncement(accessToken, anmnt));
+        e.preventDefault();
+        if(anmnt.announcement!=="" && anmnt.classroom){
+            setLoading(true);
+        dispatch(createAnnouncement(accessToken, anmnt,handleLoading));
     }
+}
+    const handleLoading = ()=>{
+        setAnmnt({
+            ...anmnt,
+            announcement: ""
+        })
+        setLoading(false);
+    }
+
 
     if (accessToken) {
         return (
             <div style={{ marginTop: '20px' }}>
                 <div className="bulletins">
-                    <div class="wrap">
+                    <div class="my-4">
                         <div>
                             <span className="title projName" > Announcements </span>
 
@@ -54,28 +67,36 @@ function Announcements(props) {
 
 
                 </div>
-                {(!userData.is_student) ? <div className="announcement" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {(!userData.is_student) ? <div className="announcement flex items-center justify-center ">
 
-                    <form action="" className="announcement-form" style={{ display: 'flex', flexDirection: 'row', width: '90%', alignItems: 'center', justifyContent: 'center' }}>
+                    <form onSubmit={handleSubmit} className="announcement-form flex items-center justify-center w-[95%] sm:w-[70%] flex-row px-2 py-4 sm:px-4 bg-[rgba(50,50,0,0.1)] rounded shadow-md">
                         <div className="input-form">
 
-                            <Input placeholder="Enter Announcement" autoFocus={true} onChange={handleChange} name="announcement" id='announcement' fullWidth={true} multiline={true} rows={2} />
+                            <Input placeholder="Enter Announcement" autoFocus={true} onChange={handleChange} name="announcement" id='announcement' fullWidth={true} multiline={true} rows={2} value={anmnt.announcement} />
 
                         </div>
 
                         <div className="button-form">
-                            <Button type="reset" onClick={handleSubmit} >
-                                <AiOutlineSend style={{ color: '#f74754' }} />
+                            <Button type='submit' disabled={loading} >
+                            {loading ? <CircularProgress size={14} color="light" /> : <BsSendPlusFill style={{ color: '#f74754' }} />}
+
                             </Button>
                         </div>
                     </form>
                 </div>
                     : null}
                 <div className="bulletins">
-                    <div className="wrap">
+                    <div className="my-8 w-[95%] sm:w-[70%] flex flex-col gap-4 items-center justify-center mx-auto">
 
-                        {announcements.map((anmnt) => <div className="announcement" style={{ marginTop: "20px", width: '90%', display: 'flex', margin: 'auto', alignItems: 'center', justifyContent: 'center', backgroundColor: 'gray' }}>
-                            <p> {anmnt.announcement}</p></div>
+                        {announcements.map((anmnt) => (
+                        <div className="flex flex-col items-start gap-2 w-full px-2 py-4 sm:px-4 rounded shadow-md bg-[rgba(0,0,255,0.1)]" >
+                        <div className="flex flex-row w-full gap-2">
+                            <Avatar>{anmnt.created_by ? anmnt.created_by?.slice(0,1):"T"}</Avatar>
+                            <h6 className='font-semibold text-base'>{anmnt.created_by}</h6>
+                        </div>
+                            <p className='text-sm'> {anmnt.announcement}</p>
+                        <small className='text-xs text-[rgba(0,0,0,0.5)]'>{new Date(anmnt.created_at).toLocaleString()}</small>
+                        </div>)
                         )}
 
                     </div>

@@ -11,7 +11,8 @@ import PrivateRoute from "./utils/PrivateRoute";
 import { getClasses } from './redux/reducers/classReducer';
 import { useAccessToken, useLoading } from "./redux/reducers/authReducer";
 import { getUserData } from "./redux/reducers/userReducer";
-const Announcements = React.lazy(() => import("./components/Announcements/Announcements"));
+import Layout from "./components/Layout";
+// const Announcements = React.lazy(() => import("./components/Announcements/Announcements"));
 const ClassDetail = React.lazy(() => import("./components/Classes/ClassDetail/ClassDetail"));
 const Classes = React.lazy(() => import("./components/Classes/Classes"));
 const Profile = React.lazy(() => import("./components/Profile/Profile"));
@@ -37,21 +38,18 @@ function App(props) {
         return (
             <BrowserRouter>
                 <div className="App">
-                    <Navbar {...props} />
                     <Routes>
-                        <Route exact path='/' element={<Home />}>
-                        </Route>
-                        <Route exact path='/contact/' element={<Contact />}/>
+                        <Route exact path='/' element={<Layout><Home /></Layout>} />
+                        <Route exact path='/contact/' element={<Layout><Contact /></Layout>}/>
                         <Route element={<PrivateRoute/>}>
-                        <Route exact path='/my-account/' element={<Suspense fallback = { <Loader /> } ><Profile /></Suspense>}/>
-                        <Route exact path='/classes/:slug' element={<Suspense fallback = { <Loader /> } ><ClassDetail /></Suspense>}/>
-                        <Route exact path='/classes/' element={<Suspense fallback = { <Loader /> } ><Classes {...props}/></Suspense>}>
+                        <Route exact path='/my-account/' element={<Suspense fallback = { <Loader /> } ><Layout><Profile /></Layout></Suspense>}/>
+                        <Route exact path='/classes/:slug' element={<Suspense fallback = { <Loader /> } ><Layout><ClassDetail /></Layout></Suspense>}/>
+                        <Route exact path='/classes/' element={<Suspense fallback = { <Loader /> } ><Layout><Classes {...props}/></Layout></Suspense>}>
                         </Route>
-                        <Route exact path='/announcements/:slug' element={<Suspense fallback = { <Loader /> } ><Announcements {...props}/></Suspense>}>
-                        </Route>
+                        {/* <Route exact path='/announcements/:slug' element={<Suspense fallback = { <Loader /> } ><Announcements {...props}/></Suspense>}> */}
+                        {/* </Route> */}
                         </Route>
                     </Routes>
-                    <Footer/>
                 </div>
             </BrowserRouter>
         )
