@@ -79,33 +79,38 @@ export const useUser = () => {
   }
   
   
-  export const updateUserData = (userData, userId, token) => {
+  export const updateUserData = (userData, userId, token, handleCloseclass) => {
     return dispatch => {
-      AxiosInstance.defaults.headers = {
-        // "Accept": "application/json",
-        // "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+try {
+  AxiosInstance.defaults.headers = {
+    // "Accept": "application/json",
+    // "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+  };
+
+  AxiosInstance.patch(`list/user/${userId}/`, userData)
+    .then((res) => {
+      const userData = {
+        name: res.data.name,
+        mobile: res.data.mobile,
+        profile_img: res.data.profile_img,
+        error: null,
+        loading: false,
+        email: res.data.email,
       };
-  
-      AxiosInstance.patch(`list/user/${userId}/`, userData)
-        .then((res) => {
-          const userData = {
-            name: res.data.name,
-            mobile: res.data.mobile,
-            profile_img: res.data.profile_img,
-            error: null,
-            loading: false,
-            email: res.data.email,
-          };
-         
-          dispatch(updateUserInfo(userData));
-  
-  
-  
-        })
-        .catch((error) => {
-          alert(error);
-        })
+     
+      dispatch(updateUserInfo(userData));
+
+
+
+    })
+    .catch((error) => {
+      alert(error);
+    })
+    .finally(()=> handleCloseclass());
+} catch (error) {
+  handleCloseclass();
+}
     }
   }
   

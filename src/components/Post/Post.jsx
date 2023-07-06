@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         margin: 'auto',
         // maxWidth: '60vw',
-        boxShadow: 'box-shadow: 0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
+        // boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
         backgroundImage: `url(${postbg})`
     },
     image: {
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Post({postData}) {
+function Post({postData, checkAndReopenWebSocket}) {
     const [newComment, setNewComment] = useState('');
     const [showComment, setShowComment] = useState(false);
     const dispatch = useDispatch();
@@ -84,6 +84,7 @@ function Post({postData}) {
     const handleCreateComment = (e) => {
         e.preventDefault();
       if (newComment !== '') {
+        checkAndReopenWebSocket();
         setLoading(true);
 
         const newCommentData = {
@@ -127,7 +128,7 @@ function Post({postData}) {
                                 <Input value={newComment} id={"text" + postData.id} name="text" onChange={(e)=>setNewComment(e.target.value.trim())} fullWidth={true} placeholder="post a comment" />
                                 <Button type='submit' disabled={loading}>
                                     
-                                    {loading ? <CircularProgress size={14} color="light" /> : <BsSendPlusFill style={{ color: '#f74754' }} />}
+                                    {loading ? <CircularProgress size={14} color="inherit" /> : <BsSendPlusFill style={{ color: '#f74754' }} />}
 
                                 </Button>
                             </form>

@@ -60,7 +60,7 @@ const Attendance = ({classId}) => {
                         className="flex items-center justify-center px-4 py-2 bg-blue-100 text-black rounded hover:bg-blue-200"
                         onClick={captureImage} disabled={loading}>
                             Mark Attendance
-                            {loading &&  <CircularProgress size={14} />}
+                            {loading &&  <CircularProgress size={14} color='inherit' />}
                     </button>
                     {/* {capturedImage && <img src={capturedImage} alt="Captured" />} */}
                     </div>                     

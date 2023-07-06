@@ -60,7 +60,7 @@ const Classes = (props) => {
                                 maxWidth="1200px"
                                 // padding="20px"
                                 className='w-full grid grid-cols-1 px-2 sm:px-5 md:px-10 lg:px-15 py-4 gap-y-8 gap-x-4  
-                                sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'
+                                 md:grid-cols-2 xl:grid-cols-3'
                                 marginTop='20px'
                                 borderRadius='10px'
                             >

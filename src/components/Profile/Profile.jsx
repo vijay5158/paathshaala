@@ -8,6 +8,7 @@ import { useAccessToken } from "../../redux/reducers/authReducer";
 import { updateUserData, useUser } from "../../redux/reducers/userReducer";
 import { MdExpandMore } from "react-icons/md";
 import { AiFillEdit, AiFillHome } from "react-icons/ai";
+import ProfilePictureUpload from "./Upload";
 
 const StyledBreadcrumb = withStyles((theme) => ({
     root: {
@@ -29,7 +30,9 @@ function Profile(props) {
     const authData = useUser();
     const authToken = useAccessToken()
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
     function handleClick(event) {
         event.preventDefault();
         navigate('/');
@@ -57,7 +60,7 @@ function Profile(props) {
         if (files.length>0){
         const updatedData = new FormData();
 
-        updatedData.append('profile_img', files[0])
+        updatedData.append('avatar', files[0])
 
         dispatch(updateUserData(updatedData, authData?.userId, authToken));
      }
@@ -73,14 +76,19 @@ function Profile(props) {
     const edit = (e) => {
         setEditMode(true)
     }
+    const handleCloseclass = () => {
+        setLoading(false);
+    };
     
     const editSubmit = (e) => {
         if (Object.keys(userData)?.length>0){
-        dispatch(updateUserData(userData, authData?.userId, authToken));
+            setLoading(true);
+        dispatch(updateUserData(userData, authData?.userId, authToken, handleCloseclass));
         document.getElementById('password').value = '';
     }
     setEditMode(false)
 }
+
     return (
         <>
             <div className="container1">
@@ -107,18 +115,7 @@ function Profile(props) {
                             <div className="card" >
                                 <div className="card-body">
                                     <div className="profile-img">
-                                        <div style={{ display: 'flex', flexDirection: 'row' }} >
-                                            <img src={(authData?.profile_img) ? authData?.profile_img : "https://bootdey.com/img/Content/avatar/avatar7.png"} alt="Admin"
-                                                className="rounded-circle" style={{ width: '9rem', borderRadius: '50%' }} />
-                                                <label className="cursor-pointer flex items-end" htmlFor="profile_img">
-                                                <AiFillEdit />
-                                                </label> 
-                                                <input type="file" className="hidden" id="profile_img"
-                                                    accept="image/*"
-                                                    onChange={handleChangeProfile} name="profile_img" />
-                                                
-
-                                        </div>
+                                       <ProfilePictureUpload />
                                         <div style={{ marginTop: '1rem' }}>
                                             <h4 style={{ fontSize: '1.5rem', color: '#58418b' }}>{authData.name}</h4>
                                             <h5 className="text-secondary mb-1" style={{ marginBottom: '0.25rem', fontSize: '1rem', color: '#d14467' }}>{(authData?.is_student) ? 'Student' : 'Teacher'}</h5>
@@ -241,7 +238,7 @@ function Profile(props) {
                                     <hr />
                                     <div className="row1">
                                         <div className="col-sm-12">
-                                            {(editMode) ? <button className="btn" onClick={editSubmit}>Submit</button>
+                                            {(editMode) ? <button className="btn" disabled={loading} onClick={editSubmit}>Submit</button>
                                                 :
                                                 <button className="btn " onClick={edit}>Edit</button>
                                             }

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom';
 import LoginDialog from "../../../../Login/LoginDialog";
 import './style.css';
-import { createAnnouncement, getAllAnnouncements, getCurrentClass } from '../../../../../redux/reducers/classReducer';
+import { createAnnouncement, getAllAnnouncements, getAnnouncements, getCurrentClass } from '../../../../../redux/reducers/classReducer';
 import { useAccessToken } from '../../../../../redux/reducers/authReducer';
 import { useUser } from '../../../../../redux/reducers/userReducer';
 import { BsSendPlusFill } from 'react-icons/bs';
@@ -14,12 +14,13 @@ import { BsSendPlusFill } from 'react-icons/bs';
 function Announcements(props) {
     const { slug } = useParams();
     const accessToken = useAccessToken();
-    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const userData = useUser();
     const announcements = getAllAnnouncements();
     useEffect(() => {
         window.scrollTo(0, 0)
+        dispatch(getAnnouncements(accessToken,slug));
     }, [])
     const currentClass = getCurrentClass();
     const classId = currentClass.id
@@ -40,6 +41,7 @@ function Announcements(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(anmnt.announcement!=="" && anmnt.classroom){
+            // props.checkAndReopenWebSocket();
             setLoading(true);
         dispatch(createAnnouncement(accessToken, anmnt,handleLoading));
     }
@@ -55,9 +57,9 @@ function Announcements(props) {
 
     if (accessToken) {
         return (
-            <div style={{ marginTop: '20px' }}>
-                <div className="bulletins">
-                    <div class="my-4">
+            <div className='w-full'>
+                {/* <div className="bulletins">
+                    <div className="my-4">
                         <div>
                             <span className="title projName" > Announcements </span>
 
@@ -66,19 +68,19 @@ function Announcements(props) {
                     </div>
 
 
-                </div>
+                </div> */}
                 {(!userData.is_student) ? <div className="announcement flex items-center justify-center ">
 
-                    <form onSubmit={handleSubmit} className="announcement-form flex items-center justify-center w-[95%] sm:w-[70%] flex-row px-2 py-4 sm:px-4 bg-[rgba(50,50,0,0.1)] rounded shadow-md">
+                    <form onSubmit={handleSubmit} className="announcement-form flex items-center justify-center w-full flex-row px-2 py-4 sm:px-4 bg-[rgba(50,50,0,0.1)] rounded shadow-md">
                         <div className="input-form">
 
-                            <Input placeholder="Enter Announcement" autoFocus={true} onChange={handleChange} name="announcement" id='announcement' fullWidth={true} multiline={true} rows={2} value={anmnt.announcement} />
+                            <Input placeholder="Enter Announcement" onChange={handleChange} name="announcement" id='announcement' fullWidth={true} multiline={true} rows={2} value={anmnt.announcement} />
 
                         </div>
 
                         <div className="button-form">
                             <Button type='submit' disabled={loading} >
-                            {loading ? <CircularProgress size={14} color="light" /> : <BsSendPlusFill style={{ color: '#f74754' }} />}
+                            {loading ? <CircularProgress size={14} color="inherit" /> : <BsSendPlusFill style={{ color: '#f74754' }} />}
 
                             </Button>
                         </div>
@@ -86,10 +88,10 @@ function Announcements(props) {
                 </div>
                     : null}
                 <div className="bulletins">
-                    <div className="my-8 w-[95%] sm:w-[70%] flex flex-col gap-4 items-center justify-center mx-auto">
+                    <div className="my-8 w-full flex flex-col gap-4 items-center justify-center mx-auto">
 
-                        {announcements.map((anmnt) => (
-                        <div className="flex flex-col items-start gap-2 w-full px-2 py-4 sm:px-4 rounded shadow-md bg-[rgba(0,0,255,0.1)]" >
+                        {announcements.map((anmnt,index) => (
+                        <div key={index} className="flex flex-col items-start gap-2 w-full px-2 py-4 sm:px-4 rounded shadow-md bg-[rgba(0,0,255,0.1)]" >
                         <div className="flex flex-row w-full gap-2">
                             <Avatar>{anmnt.created_by ? anmnt.created_by?.slice(0,1):"T"}</Avatar>
                             <h6 className='font-semibold text-base'>{anmnt.created_by}</h6>

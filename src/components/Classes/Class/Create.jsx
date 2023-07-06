@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { useAccessToken } from "../../../redux/reducers/authReducer";
 import { useUser } from "../../../redux/reducers/userReducer";
 import { createCLS } from "../../../redux/reducers/classReducer";
-import { Input, Typography } from "@material-ui/core";
+import { CircularProgress, Input, Typography } from "@material-ui/core";
 
 function CreateClass(props) {
     const accessToken = useAccessToken();
@@ -66,7 +66,6 @@ function CreateClass(props) {
                         To create a class , please enter class details.
 
                     </DialogContentText>
-                    <Typography variant="body1">&#8288;Columns</Typography>
                     <Input
                         margin="dense"
                         id="classname"
@@ -104,6 +103,8 @@ function CreateClass(props) {
                     </Button>
                     <Button type="submit" disabled={loading} onClick={createClass} color="primary">
                         Create Class
+            {loading && <CircularProgress size={24} color="primary" />}
+
                     </Button>
 
                 </DialogActions>

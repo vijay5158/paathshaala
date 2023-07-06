@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getPost, usePosts } from '../../../../redux/reducers/postReducer';
+import { createCommentSuccess, createPostSuccess, getPost, usePosts } from '../../../../redux/reducers/postReducer';
 import { makeStyles } from '@material-ui/core';
 import Posts from "../../../Post/Posts";
 import CopyButton from "../CopyButton";
@@ -8,11 +8,15 @@ import { Card, CardActions, Container, Input } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
 import Cardbg from '../../../../images/classcardbg.jpg';
-import { getClasses, getCurrentClass, getCurrentClassSuccess, useClassLoading } from '../../../../redux/reducers/classReducer';
+import { createAnmntSuccess, getClasses, getCurrentClass, getCurrentClassSuccess, useClassLoading } from '../../../../redux/reducers/classReducer';
 import { useUser } from '../../../../redux/reducers/userReducer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useAccessToken } from '../../../../redux/reducers/authReducer';
+import { useRef } from 'react';
+import { useCallback } from 'react';
+import { useState } from 'react';
+import Announcements from './Announcements/Announcements';
 
 const useStyles = makeStyles((theme) => (
     {
@@ -61,21 +65,92 @@ const Liveroom = () => {
     const userData = useUser();
     const loading = useClassLoading()
     const currentClass = getCurrentClass();
-
+    const webSocket = useRef(null);
+    const { slug } = useParams();
+    const [content, setContent] = useState("posts");
+    const accessToken = useAccessToken();
+    const dispatch = useDispatch();
     const classes = useStyles();
     classes.cardContent = undefined;
     classes.card = undefined;
     const refresh = () => {
-        // dispatch(getPost(accessToken, slug));
+        dispatch(getPost(accessToken, slug));
         // dispatch(getComment(userData?.token, slug));
     }
-   
+    useEffect(()=>{
+        dispatch(getPost(accessToken,slug));
+        
+    },[])
+    
+    const disconnect = useCallback(() => {
+          webSocket?.current?.close();
+      }, [webSocket]);
+  
+   const createWebSocketConnection = ()=>{
+    const path = `ws://localhost:8000/ws/class/${slug}/?token=${accessToken}`;
+  
+    webSocket.current = new WebSocket(path);
+    webSocket.current.onopen = () => {
+      webSocket.current.send(JSON.stringify({
+        type: "auth",
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }));
+    };
+    webSocket.current.onmessage = e => {
+      const data = JSON.parse(e.data);
+      if (data.comment != null) {
+        dispatch(createCommentSuccess(data.comment))
+      }
+      if (data.post != null) {
+        dispatch(createPostSuccess(data.post));
+      }
+      else if(data.announcement){
+          dispatch(createAnmntSuccess(data.announcement));
+      }
+    };
+    webSocket.current.onerror = e => {
+      console.log(e);
+    };
+    webSocket.current.onclose = () => {
+    };
+  
+  }
+      useEffect(() => {
+  
+        createWebSocketConnection();
+          return () => {
+            disconnect();
+          };
+        }, [slug]);
+    
+    const checkAndReopenWebSocket = ()=>{
+      if (!webSocket.current || webSocket?.current?.readyState === WebSocket.CLOSED){
+        console.log('checkAndReopenWebSocketClosed');
+        createWebSocketConnection();
+      }
+    }
+  
 
     return (
         <>
   <div className='card-div sm:w-[70vw] w-[95vw]'>
                         <Card className={classes.root}>
-
+                        <CardActions>
+                                <div className="w-full flex justify-between items-center">
+                                <Button size="small" onClick={refresh}>Refresh</Button>
+                                {(!userData?.is_student) ? <p style={{ color: 'gray', fontSize: '0.8rem' }}>
+                                    {/* Class code: {currentClass.slug} */}
+                                    <CopyButton text={currentClass?.slug} />
+                                </p> : 
+                                // <p style={{ color: 'gray', fontSize: '0.8rem' }}>
+                                //     Class Teacher: {currentClass?.teacher?.name}
+                                // </p>
+                                <Attendance classId={currentClass?.id} />
+                                }
+                                </div>
+                            </CardActions>
                             <CardContent>
 
                                 <h4 style={{ color: '#58418b', fontSize: '1rem' }}>
@@ -91,53 +166,54 @@ const Liveroom = () => {
                                 {/*        {'"a benevolent smile"'}*/}
                                 {/*    </Typography>*/}
                             </CardContent>
-                            <CardActions>
-                                <div className="w-full flex justify-between items-center">
-                                <Button size="small" onClick={refresh}>Refresh</Button>
-                                {(!userData?.is_student) ? <p style={{ color: 'gray', fontSize: '0.8rem' }}>
-                                    {/* Class code: {currentClass.slug} */}
-                                    <CopyButton text={currentClass?.slug} />
-                                </p> : 
-                                // <p style={{ color: 'gray', fontSize: '0.8rem' }}>
-                                //     Class Teacher: {currentClass?.teacher?.name}
-                                // </p>
-                                <Attendance classId={currentClass?.id} />
-                                }
-                                </div>
-                            </CardActions>
+                            <ul className="flex flex-wrap relative -mb-px items-center justify-center">
+        
+                            <li className="mr-2">
+                                <span onClick={()=> setContent("posts")} className={
+                                    content==="posts"?
+                                    "inline-block p-4 cursor-pointer text-sm projName border-b-2 border-[#b652a9] rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                                    :
+                                    "inline-block p-4 cursor-pointer text-sm border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                }>
+                                    Posts
+                                </span>
+                            </li>
+                        {/* <li className="mr-2">
+                                <span onClick={()=> setContent("assignment")} className={
+                                                    content==="assignment"?
+                                                    "inline-block p-4 cursor-pointer text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                                                    :
+                                                    "inline-block p-4 cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                                }>
+                                    Assignment</span>
+                            </li>
+                            <li className="mr-2">
+                                <span onClick={()=> setContent("attendance")} className={
+                                                    content==="attendance"?
+                                                    "inline-block p-4 cursor-pointer text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                                                    :
+                                                    "inline-block p-4 cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                                }>
+                                    Attendance</span>
+                            </li> */}
+                            <li>
+                                <span onClick={()=> setContent("announcements")} className={
+                                                content==="announcements"?
+                                                "inline-block p-4 cursor-pointer text-sm projName border-b-2 border-[#b652a9] rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                                                :
+                                                "inline-block p-4 cursor-pointer text-sm border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                                }>
+                                    Announcements</span>
+                            </li>
+                        </ul>
                         </Card>
                     </div>
                     <div className="post-div sm:w-[70vw] w-[95vw]">
-                        {/* <Container maxWidth="md" id='postContainer' component="main">
-                            {(!userData?.is_student) ?
-
-                                <div className="add-post">
-
-                                    <form action="" encType="multipart/form-data" className="add-form">
-                                        <div className="input-form">
-
-                                            <Input placeholder={(expand) ? "Enter Text" : "Click to add post."} autoFocus={(expand)} onChange={handleChange} onClick={() => setExpand(true)} name="text" fullWidth={true} multiline={(expand) ? true : false} rows={2} />
-                                            {(expand) ?
-                                                <Button style={{ marginTop: '1rem' }}>
-                                                    <Input type="file" multiple id="file"
-                                                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"
-                                                        onChange={handleChangeFile} disableUnderline={true} name="file" /> </Button> : null}
-                                        </div>
-                                        {(expand) ?
-                                            <div className="button-form">
-                                                <Button type="reset" onClick={handleSubmit} >
-                                                    <SendIcon style={{ color: '#f74754' }} />
-                                                </Button>
-                                                <Button onClick={() => setExpand(false)}>
-                                                    <CloseIcon style={{ color: '#f74754' }} />
-                                                </Button>
-                                            </div>
-                                            : null}
-                                    </form>
-                                </div> : null}
-                            {posts.map((post, index) => <Post key={index} firstName={post.user.first_name} slug={slug} lastName={post.user.last_name} profile_img={post.user.profile_img} text={post.text} file_name={post.file_name} file={post.file} user={post.user} date={post.date} time={post.time} post_id={post.id} />)}
-                        </Container> */}
-                        <Posts />
+                        {content==="announcements" ? 
+                        <Announcements />
+                        :
+                        <Posts checkAndReopenWebSocket={checkAndReopenWebSocket} />
+                        }
                     </div>
         </>
     );

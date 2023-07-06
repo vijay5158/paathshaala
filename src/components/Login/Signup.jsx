@@ -52,6 +52,7 @@ function Signup(props) {
     };
     const processDone = ()=>{
         setLoading(false);
+        setFormDataLogin(lastFormDataLogin);
         handleClose();
         navigate("/classes");
     }
@@ -105,7 +106,7 @@ function Signup(props) {
         const { email, password } = formDataLogin;
         dispatch(authLogin(email, password, processDone, processFail));
 
-        setFormDataLogin(lastFormDataLogin);
+        
     }
 
     const loginContainer = document.querySelector('#loginContainer')
@@ -151,7 +152,7 @@ function Signup(props) {
 
                             <button type="submit" className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)]" onClick={handleSubmit}>
                             Take Off!
-                                {loading && <CircularProgress size={14} color="light" />}
+                                {loading && <CircularProgress size={14} color="inherit" />}
                             </button>
                             {/* <p className="social-text">Or Sign up with social platforms</p>
                             <div className="social-media">
@@ -181,7 +182,7 @@ function Signup(props) {
                             </div>
                             <button type="submit" disabled={loading} onClick={handleSubmitLogin} className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] solid">
                                 Launch
-                            {loading &&  <CircularProgress size={14} color="light" />}
+                            {loading &&  <CircularProgress size={14} color="inherit" />}
                                 </button>
                             <p className="social-text">Or Sign in with social platforms</p>
                             <div className="social-media">

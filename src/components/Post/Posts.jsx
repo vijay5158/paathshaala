@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Input } from '@material-ui/core';
+import { CircularProgress, Container, Input, Paper } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import FormData from 'form-data';
@@ -76,6 +76,7 @@ const Posts = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         if (postData.text !==""){
+            props.checkAndReopenWebSocket();
             setLoading(true);
           let post = new FormData();
         post.append('text', postData.text);
@@ -100,10 +101,10 @@ const handleLoading = ()=>{
     classes.card = undefined;
     return (
         <>
-            <Container maxWidth="md" component="main">
+            <main className='w-full'>
                 {(!userData?.is_student) ?
 
-                    <div className="add-post">
+                    <Paper className="add-post">
 
                         <form action="" encType="multipart/form-data"  onSubmit={handleSubmit} className="add-form">
                             <div className="input-form">
@@ -119,7 +120,7 @@ const handleLoading = ()=>{
                                 <div className="button-form">
                                     <Button type="submit" disabled={loading} >
                                         
-                                    {loading ? <CircularProgress size={14} color="light" /> : <AiOutlineSend className='text-[#f74754] text-xl' />}
+                                    {loading ? <CircularProgress size={14} color="inherit" /> : <AiOutlineSend className='text-[#f74754] text-xl' />}
                                     </Button>
                                     <Button onClick={() => setExpand(false)}>
                                         <MdClose className='text-[#f74754] text-xl' />
@@ -127,9 +128,9 @@ const handleLoading = ()=>{
                                 </div>
                                 : null}
                         </form>
-                    </div> : null}
-                    {postIds.map((postId, index) => <Post key={index} slug={classData?.slug} postData={posts[postId]} />)}
-            </Container>
+                    </Paper> : null}
+                    {postIds.map((postId, index) => <Post key={index} checkAndReopenWebSocket={props.checkAndReopenWebSocket} slug={classData?.slug} postData={posts[postId]} />)}
+            </main>
         </>
     );
 }

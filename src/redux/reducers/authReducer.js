@@ -124,13 +124,13 @@ try {
     const data = res.data?.user;
     const tokens = res.data?.tokens;
     const user = {
-      // profile_img: data?.profile_img,
+      profile_img: data?.profile_img,
       name: data?.name,
       mobile: data?.mobile,
       email: data?.email,
       expirationDate: new Date().getTime() + 36000 * 1000,
-      // is_student: data?.is_student,
-      // is_teacher: data?.is_teacher,
+      is_student: data?.is_student,
+      is_teacher: data?.is_teacher,
       userId: data?.id
     };
     dispatch(login(tokens))

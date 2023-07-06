@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "../../../redux/reducers/authReducer";
 import { useUser } from "../../../redux/reducers/userReducer";
 import { getAllClasses, joinCLS } from "../../../redux/reducers/classReducer";
+import { CircularProgress } from "@material-ui/core";
 
 function JoinClass(props) {
     const accessToken = useAccessToken();
@@ -93,6 +94,8 @@ function JoinClass(props) {
                     </Button>
                     <Button onClick={handleJoin} disabled={loading} color="primary">
                         Join Class
+            {loading && <CircularProgress size={24} color="primary" />}
+
                     </Button>
                 </DialogActions>
             </Dialog></div>
