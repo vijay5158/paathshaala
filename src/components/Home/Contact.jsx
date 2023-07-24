@@ -78,7 +78,7 @@ function Contact() {
             <section className="contact" id="contact">
                 <h1 className="text-center text-big">Contact Us</h1>
                 <div className="form">
-                    <form action="" className='sm:w-[70vw] w-full'>
+                    <form action="" className='sm:w-[70vw] w-full py-[2rem]'>
                         <input className="form-input" type="text" onChange={handleChange} name="name" id="name" placeholder="Enter Your name" />
                         <input className="form-input" type="text" onChange={handleChange} name="mobile" id="mobile"
                             placeholder="Enter Your Phone" />

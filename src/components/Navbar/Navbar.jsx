@@ -12,6 +12,7 @@ import logo from "../../images/logo1.png";
 import Login from '../Login/LoginDialog';
 import './style.css';
 import { authLogout, useAccessToken, useRefreshToken } from '../../redux/reducers/authReducer';
+import { useUser } from '../../redux/reducers/userReducer';
 
 
 
@@ -19,6 +20,7 @@ const Navbar = (props) => {
     const dispatch = useDispatch();
     const token = useAccessToken();
     const refreshToken = useRefreshToken();
+    const userData = useUser();
     const scripts = () => {
         const burger = document.querySelector('.burger')
         const navbar = document.querySelector('.navbar')
@@ -95,7 +97,11 @@ const Navbar = (props) => {
                 <div className="rightNav v-class-resp">
                     {token ? <div className='rightNavResp'>
                         <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                            {userData?.profile_img ?
+                            <img src={userData?.profile_img} alt="profile_img" className='w-[40px] h-[40px] rounded-full' />
+                            :
                             <FaUserAlt className={classes.sideBarButton} />
+                            }
                         </Button>
                         <Menu
                             id="simple-menu"
