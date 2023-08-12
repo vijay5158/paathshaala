@@ -69,7 +69,6 @@ export const getPost = (token,slug) => {
         })
         .then(res => {
             const data = res.data;
-            // console.log(res.data);
             dispatch(setPostSuccess(data));
         })
         .catch(err => {

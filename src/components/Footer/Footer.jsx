@@ -5,7 +5,7 @@ function Footer(props) {
         <div>
             <footer className="background1">
                 <p className="text-footer text-small">
-                    Copyright &copy; 2021 - www.paathshaala.me - All rights reserved.
+                    Copyright &copy; 2023 - www.paathshaala.me - All rights reserved.
                 </p>
             </footer>
         </div>

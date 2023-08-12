@@ -17,6 +17,8 @@ import { useRef } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
 import Announcements from './Announcements/Announcements';
+import { createAssignment } from '../../../../redux/reducers/assignmentReducer';
+import Assignments from './Assignments/Assignments';
 
 const useStyles = makeStyles((theme) => (
     {
@@ -87,7 +89,7 @@ const Liveroom = () => {
       }, [webSocket]);
   
    const createWebSocketConnection = ()=>{
-    const path = `ws://localhost:8000/ws/class/${slug}/?token=${accessToken}`;
+    const path = `wss://api.paathshaala.me/ws/class/${slug}/?token=${accessToken}`;
   
     webSocket.current = new WebSocket(path);
     webSocket.current.onopen = () => {
@@ -108,6 +110,9 @@ const Liveroom = () => {
       }
       else if(data.announcement){
           dispatch(createAnmntSuccess(data.announcement));
+      }
+      else if(data.assignment){
+        dispatch(createAssignment(data.assignment));
       }
     };
     webSocket.current.onerror = e => {
@@ -166,51 +171,54 @@ const Liveroom = () => {
                                 {/*        {'"a benevolent smile"'}*/}
                                 {/*    </Typography>*/}
                             </CardContent>
-                            <ul className="flex flex-wrap relative -mb-px items-center justify-center">
+                            <ul className="flex flex-wrap relative gap-2 items-center justify-center">
         
-                            <li className="mr-2">
+                            <li className="">
                                 <span onClick={()=> setContent("posts")} className={
-                                    content==="posts"?
-                                    "inline-block p-4 cursor-pointer text-sm projName border-b-2 border-[#b652a9] rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
-                                    :
-                                    "inline-block p-4 cursor-pointer text-sm border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                                }>
-                                    Posts
-                                </span>
+                                                    content==="posts"?
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer text-blue-600 border-b-2 border-blue-600 bg-[rgba(0,0,255,0.1)] rounded-t-lg active "
+                                                    :
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                                }>
+                                    Posts</span>
                             </li>
-                        {/* <li className="mr-2">
+                        <li className="">
                                 <span onClick={()=> setContent("assignment")} className={
                                                     content==="assignment"?
-                                                    "inline-block p-4 cursor-pointer text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer text-blue-600 border-b-2 border-blue-600 bg-[rgba(0,0,255,0.1)] rounded-t-lg active "
                                                     :
-                                                    "inline-block p-4 cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
                                                 }>
                                     Assignment</span>
                             </li>
-                            <li className="mr-2">
+                            {/* <li className="mr-2">
                                 <span onClick={()=> setContent("attendance")} className={
                                                     content==="attendance"?
-                                                    "inline-block p-4 cursor-pointer text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer text-blue-600 border-b-2 border-blue-600 bg-[rgba(0,0,255,0.1)] rounded-t-lg active "
                                                     :
-                                                    "inline-block p-4 cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
                                                 }>
                                     Attendance</span>
                             </li> */}
-                            <li>
+                            <li className="">
                                 <span onClick={()=> setContent("announcements")} className={
-                                                content==="announcements"?
-                                                "inline-block p-4 cursor-pointer text-sm projName border-b-2 border-[#b652a9] rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
-                                                :
-                                                "inline-block p-4 cursor-pointer text-sm border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                                    content==="announcements"?
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer text-blue-600 border-b-2 border-blue-600 bg-[rgba(0,0,255,0.1)] rounded-t-lg active "
+                                                    :
+                                                    "inline-block p-4 text-xs md:text-base sm:text-sm cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
                                                 }>
                                     Announcements</span>
                             </li>
+
                         </ul>
                         </Card>
                     </div>
                     <div className="post-div sm:w-[70vw] w-[95vw]">
                         {content==="announcements" ? 
                         <Announcements />
+                        :
+                        content==="assignment" ? 
+                        <Assignments />
                         :
                         <Posts checkAndReopenWebSocket={checkAndReopenWebSocket} />
                         }

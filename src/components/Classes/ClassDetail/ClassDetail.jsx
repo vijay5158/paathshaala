@@ -10,6 +10,7 @@ import { useAccessToken } from "../../../redux/reducers/authReducer";
 import { useUser } from "../../../redux/reducers/userReducer";
 import Navbar from "../../Navbar/ClassNavbar";
 import Liveroom from './Tabs/Liveroom';
+import RoomLobby from './Tabs/Videoroom/RoomLobby';
 // import Attendance from './Tabs/Attendance';
 // import Announcements from './Tabs/Announcements/Announcements';
 // import Assignment from './Tabs/Assignment';
@@ -46,7 +47,7 @@ function ClassDetail(props) {
                     {/* <SideBar slug={slug} isStudent={userData?.is_student} /> */}
                   {
                     content==="videoroom" ?
-                    <h2>Coming soon</h2> :
+                    <RoomLobby /> :
                     <Liveroom /> 
                   }
                 </>

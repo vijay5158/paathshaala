@@ -57,9 +57,8 @@ function PostData(props) {
                         (fileExtn === 'doc' || fileExtn === 'docx' || fileExtn === 'odp') ? DocIcon :
                             (fileExtn === 'pptx' || fileExtn === 'ppt') ? PptIcon :
                                 (fileExtn === 'mp4' || fileExtn === 'mkv') ? Mp4Icon :
-                                    (fileExtn === 'jpg' || fileExtn === 'jpeg' || fileExtn === 'mp3') ? Mp3Icon :
+                                    (fileExtn === 'mp3') ? Mp3Icon :
                                         (fileExtn === 'zip') ? ZipIcon :
-
                                             FileIcon}
                 title="File"
             />
