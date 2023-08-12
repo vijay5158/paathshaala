@@ -1,6 +1,5 @@
-import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { Button } from 'react-bootstrap';
 import Webcam from 'react-webcam';
 import { MarkAttendance } from '../../../redux/reducers/classReducer';
 import { useDispatch } from 'react-redux';

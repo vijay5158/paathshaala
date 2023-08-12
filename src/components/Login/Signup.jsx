@@ -1,13 +1,12 @@
-import { CircularProgress, FormControl, FormHelperText, InputLabel, NativeSelect } from "@material-ui/core";
+import { CircularProgress, FormControl, FormHelperText, InputLabel, NativeSelect } from "@mui/material";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { authLogin, authSignup } from "../../redux/reducers/authReducer";
-import { Spinner } from "react-bootstrap";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { green } from "@material-ui/core/colors";
+import { green } from "@mui/material/colors";
 
 const handleSlideSignup = () => {
     const sign_in_btn = document.querySelector("#sign-in-btn");

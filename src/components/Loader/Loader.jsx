@@ -6,7 +6,7 @@ function Loader(props) {
             <div className="main-div">
                 <div className="center-div">
                     <div className="rot"></div>
-                    <h3 id="loadText"> <span style={{ fontSize: '2rem' }} className="projName"> PaathShaala </span></h3>
+                    <h3 id="loadText"> <span style={{ fontSize: '1rem' }} className="projName"> PaathShaala </span></h3>
                 </div>
 
             </div>

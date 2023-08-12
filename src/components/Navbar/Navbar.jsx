@@ -1,9 +1,8 @@
-import Button from '@material-ui/core/Button';
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@mui/material/Button';
+import { deepOrange, deepPurple } from '@mui/material/colors';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 // import './profile.css'
-import { makeStyles } from '@material-ui/core/styles';
 import {FaUserAlt} from 'react-icons/fa';
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -39,21 +38,7 @@ const Navbar = (props) => {
     }
     const navHide = () => {
     }
-    const useStyles = makeStyles((theme) => ({
-        root: {
-            display: 'flex',
-            '& > *': {
-                margin: theme.spacing(1),
-            },
-        },
-        orange: {
-            color: theme.palette.getContrastText(deepOrange[500]),
-            backgroundColor: deepOrange[500],
-        },
-        purple: {
-            color: theme.palette.getContrastText(deepPurple[500]),
-            backgroundColor: deepPurple[500],
-        },
+    const useStyles = () => ({
         sideBarButton: {
             Color: '#d14467',
             fontSize: '40px',
@@ -63,7 +48,7 @@ const Navbar = (props) => {
             borderRadius: '50%'
 
         },
-    }));
+    });
     const classes = useStyles();
     useEffect(() => scripts(), []);
     const [anchorEl, setAnchorEl] = useState(null)
@@ -100,7 +85,7 @@ const Navbar = (props) => {
                             {userData?.profile_img ?
                             <img src={userData?.profile_img} alt="profile_img" className='w-[40px] h-[40px] rounded-full' />
                             :
-                            <FaUserAlt className={classes.sideBarButton} />
+                            <FaUserAlt sx={classes.sideBarButton} />
                             }
                         </Button>
                         <Menu

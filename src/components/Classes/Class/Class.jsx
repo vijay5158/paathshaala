@@ -1,17 +1,15 @@
-import Avatar from "@material-ui/core/Avatar";
-import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import Collapse from "@material-ui/core/Collapse";
-import { red } from "@material-ui/core/colors";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import Collapse from "@mui/material/Collapse";
+import { red } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
 import { MdExpandMore } from "react-icons/md";
 import { AiOutlineStar, AiOutlineShareAlt } from 'react-icons/ai';
-import clsx from "clsx";
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import Cardbg from '../../../images/classcardbg.jpg';
@@ -20,7 +18,7 @@ import './class.css';
 import { useDispatch } from "react-redux";
 import { setCurrentClass } from "../../../redux/reducers/classReducer";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = () => ({
     root: {
         fontFamily: 'Audiowide',
         maxWidth: 345,
@@ -36,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
     expand: {
         transform: 'rotate(0deg)',
         marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
+        // transition: theme.transitions.create('transform', {
+        //     duration: theme.transitions.duration.shortest,
+        // }),
     },
     expandOpen: {
         transform: 'rotate(180deg)',
@@ -46,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: red[500],
     },
-}));
-
+});
 
 function Class({classData}) {
     const dispatch = useDispatch();
@@ -71,11 +68,11 @@ function Class({classData}) {
             <Box p={1}>
                 <Link id='card-link' onClick={handleToClass} style={{ textDecoration: 'none', fontFamily: 'Audiowide' }} to={classData.slug}  >
                     <div>
-                        <Card className={classes.root}>
+                        <Card sx={classes.root}>
                             <CardHeader
                                 style={{ width: '300px', marginTop: '1rem', height: '60px', fontFamily: 'Audiowide, cursive' }}
                                 avatar={
-                                    <Avatar aria-label="recipe" className={classes.avatar}>
+                                    <Avatar aria-label="recipe" sx={classes.avatar}>
                                         {classData.subject.charAt(0)}
                                     </Avatar>
                                 }
@@ -83,7 +80,7 @@ function Class({classData}) {
                                 subheader={<p>{classData.class_name + " " + classData.standard}</p>}
                             />
                             <CardMedia
-                                className={classes.media}
+                                sx={classes.media}
                                 image={Coa}
                                 title={classData.subject}
                             />
@@ -99,9 +96,7 @@ function Class({classData}) {
                                     <AiOutlineShareAlt />
                                 </IconButton>
                                 <IconButton
-                                    className={clsx(classes.expand, {
-                                        [classes.expandOpen]: expanded,
-                                    })}
+                                    sx={classes.expand}
                                     onClick={handleExpandClick}
                                     aria-expanded={expanded}
                                     aria-label="show more"

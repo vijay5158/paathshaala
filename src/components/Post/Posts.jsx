@@ -1,35 +1,31 @@
-import { CircularProgress, Container, Input, Paper } from '@material-ui/core';
-import Button from "@material-ui/core/Button";
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { CircularProgress, Container, Input, Paper } from '@mui/material';
+import Button from "@mui/material/Button";
 import FormData from 'form-data';
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { useNavigate } from 'react-router-dom';
 import Post from "./Post";
 import './poststyle.css';
 import { useUser } from '../../redux/reducers/userReducer';
 import { useAccessToken } from '../../redux/reducers/authReducer';
-import { useRef } from 'react';
 import { getCurrentClass } from '../../redux/reducers/classReducer';
 import { createPost, usePosts } from '../../redux/reducers/postReducer';
-import { Spinner } from 'react-bootstrap';
 import { MdClose } from 'react-icons/md';
 import { AiOutlineSend } from 'react-icons/ai';
 
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = (() => ({
     cardMedia: {
         paddingTop: '56.25%',
     },
     link: {
-        margin: theme.spacing(1, 1.5),
+        margin: "8px",
     },
     cardHeader: {
-        backgroundColor:
-            theme.palette.type === 'light'
-                ? theme.palette.grey[200]
-                : theme.palette.grey[700],
+        // backgroundColor:
+        //     theme.palette.type === 'light'
+        //         ? theme.palette.grey[200]
+        //         : theme.palette.grey[700],
     },
     postTitle: {
         fontSize: '16px',
@@ -41,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'baseline',
         fontSize: '12px',
         textAlign: 'left',
-        marginBottom: theme.spacing(2),
+        marginBottom: "10px",
     },
 }));
 
@@ -96,9 +92,7 @@ const handleLoading = ()=>{
     setLoading(false);
     setExpand(false)
 }
-    const classes = useStyles();
-    classes.cardContent = undefined;
-    classes.card = undefined;
+
     return (
         <>
             <main className='w-full'>
