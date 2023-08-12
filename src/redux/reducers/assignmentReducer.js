@@ -108,7 +108,7 @@ export const getAssignmentSubmissions = (token, slug,data) => {
   };
 };
 
-export const createAssignment = (token, slug,data, setLoading) => {
+export const createAssignment = (token, slug,data, setLoading, handleDone) => {
   return dispatch => {
     try {
         setLoading(true);
@@ -122,6 +122,7 @@ export const createAssignment = (token, slug,data, setLoading) => {
                 const data = res.data;
                 console.log(data);
                 // dispatch(getSubmissionsSuccess(data.data));
+                handleDone()
             })
             .catch(err => {
                 alert(err?.response?.data?.message);

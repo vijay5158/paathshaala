@@ -50,7 +50,15 @@ const Header = () => {
         setDocument(files[0]);
       };
     };
-
+    const handleDone = () => {
+      setAssignmentData({
+        title: "",
+        end_date: "",
+        assignment_text: ""
+      });
+      setDocument(null);
+      handleClose();    
+    }
     const handleSubmit = () => {
       if (assignmentData.title === ""){
         alert("Fill assignment title !");
@@ -70,9 +78,11 @@ const Header = () => {
         formData.append("end_date", assignmentData.end_date);
         formData.append("assignment_text", assignmentData.assignment_text);
         if(document) formData.append("file", document);
-        dispatch(createAssignment(accessToken, slug, formData, setLoading));
+        dispatch(createAssignment(accessToken, slug, formData, setLoading, handleDone));
+        
       }
     }
+
     return (
         <>
         <header className="flex justify-between items-center w-full py-2 sm:py-3 md:py-4 px-2 sm:px-3">
@@ -102,6 +112,7 @@ const Header = () => {
             type="text"
             fullWidth
             variant="outlined"
+            value={assignmentData.title}
             onChange={handleDataChange}
             InputLabelProps={{
               shrink: true,
@@ -115,8 +126,11 @@ const Header = () => {
             label="Document"
             type="file"
             fullWidth
+            value={document}
+
             variant="outlined"
             onChange={handleFileChange}
+            
             helperText="*Optional"
             InputLabelProps={{
               shrink: true,
@@ -130,6 +144,7 @@ const Header = () => {
             label="End Date"
             type="datetime-local"
             fullWidth
+            value={assignmentData.end_date}
             onChange={handleDataChange}
             variant="outlined"
             InputLabelProps={{
@@ -142,6 +157,7 @@ const Header = () => {
             id="assignment_text"
             name="assignment_text"
             label="Details"
+            value={assignmentData.assignment_text}
             type="text"
             multiline
             fullWidth
