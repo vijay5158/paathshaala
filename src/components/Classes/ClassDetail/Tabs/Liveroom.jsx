@@ -89,7 +89,7 @@ const Liveroom = () => {
       }, [webSocket]);
   
    const createWebSocketConnection = ()=>{
-    const path = `ws://localhost:8000/ws/class/${slug}/?token=${accessToken}`;
+    const path = `wss://api.paathshaala.me/ws/class/${slug}/?token=${accessToken}`;
   
     webSocket.current = new WebSocket(path);
     webSocket.current.onopen = () => {

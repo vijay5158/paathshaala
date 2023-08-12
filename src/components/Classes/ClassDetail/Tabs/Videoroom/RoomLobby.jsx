@@ -79,7 +79,7 @@ const RoomLobby = () => {
     };
     
   const createWebSocketConnection = ()=>{
-    const path = `ws://localhost:8000/ws/video/${slug}/?token=${accessToken}`;
+    const path = `wss://api.paathshaala.me/ws/video/${slug}/?token=${accessToken}`;
 
   webSocket.current = new WebSocket(path);
   webSocket.current.onopen = () => {
