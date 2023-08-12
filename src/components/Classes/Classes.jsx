@@ -1,6 +1,6 @@
-import Box from '@material-ui/core/Box';
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import Box from '@mui/material/Box';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import Loader from "../Loader/Loader";

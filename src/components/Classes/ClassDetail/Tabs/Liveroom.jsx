@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { createCommentSuccess, createPostSuccess, getPost, usePosts } from '../../../../redux/reducers/postReducer';
-import { makeStyles } from '@material-ui/core';
 import Posts from "../../../Post/Posts";
 import CopyButton from "../CopyButton";
 import Attendance from "../Attendance";
-import { Card, CardActions, Container, Input } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import CardContent from "@material-ui/core/CardContent";
+import { Card, CardActions, Container, Input } from "@mui/material";
+import Button from "@mui/material/Button";
+import CardContent from "@mui/material/CardContent";
 import Cardbg from '../../../../images/classcardbg.jpg';
 import { createAnmntSuccess, getClasses, getCurrentClass, getCurrentClassSuccess, useClassLoading } from '../../../../redux/reducers/classReducer';
 import { useUser } from '../../../../redux/reducers/userReducer';
@@ -17,10 +16,10 @@ import { useRef } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
 import Announcements from './Announcements/Announcements';
-import { createAssignment } from '../../../../redux/reducers/assignmentReducer';
+import { addAssignmentSuccess, createAssignment } from '../../../../redux/reducers/assignmentReducer';
 import Assignments from './Assignments/Assignments';
 
-const useStyles = makeStyles((theme) => (
+const useStyles = () => (
     {
         root: {
             minWidth: 275,
@@ -42,13 +41,13 @@ const useStyles = makeStyles((theme) => (
             paddingTop: '56.25%', // 16:9
         },
         link: {
-            margin: theme.spacing(1, 1.5),
+            margin: "10px",
         },
         cardHeader: {
-            backgroundColor:
-                theme.palette.type === 'light'
-                    ? theme.palette.grey[200]
-                    : theme.palette.grey[700],
+            // backgroundColor:
+            //     theme.palette.type === 'light'
+            //         ? theme.palette.grey[200]
+            //         : theme.palette.grey[700],
         },
         postTitle: {
             fontSize: '16px',
@@ -60,9 +59,9 @@ const useStyles = makeStyles((theme) => (
             alignItems: 'baseline',
             fontSize: '12px',
             textAlign: 'left',
-            marginBottom: theme.spacing(2),
+            marginBottom: "10px",
         }
-    }));
+    });
 const Liveroom = () => {
     const userData = useUser();
     const loading = useClassLoading()
@@ -90,6 +89,7 @@ const Liveroom = () => {
   
    const createWebSocketConnection = ()=>{
     const path = `wss://api.paathshaala.me/ws/class/${slug}/?token=${accessToken}`;
+    const localPath = `ws://localhost:8000/ws/class/${slug}/?token=${accessToken}`;
   
     webSocket.current = new WebSocket(path);
     webSocket.current.onopen = () => {
@@ -112,7 +112,7 @@ const Liveroom = () => {
           dispatch(createAnmntSuccess(data.announcement));
       }
       else if(data.assignment){
-        dispatch(createAssignment(data.assignment));
+        dispatch(addAssignmentSuccess(data.assignment));
       }
     };
     webSocket.current.onerror = e => {
@@ -141,7 +141,7 @@ const Liveroom = () => {
     return (
         <>
   <div className='card-div sm:w-[70vw] w-[95vw]'>
-                        <Card className={classes.root}>
+                        <Card sx={classes.root}>
                         <CardActions>
                                 <div className="w-full flex justify-between items-center">
                                 <Button size="small" onClick={refresh}>Refresh</Button>

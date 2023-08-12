@@ -1,17 +1,16 @@
-import { makeStyles } from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
 import axios from "axios";
 import React, { useState } from 'react';
 import './style.css';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        '& > * + *': {
-            marginTop: theme.spacing(2),
-        },
-    },
-}));
+// const useStyles = makeStyles((theme) => ({
+//     root: {
+//         width: '100%',
+//         '& > * + *': {
+//             marginTop: theme.spacing(2),
+//         },
+//     },
+// }));
 
 function Contact() {
     const initialDataContact = Object.freeze({
@@ -47,7 +46,6 @@ function Contact() {
                 showAlertError();
             })
     }
-    const classes = useStyles();
 
     function closeAlertSuccess() {
         document.getElementById('successAlert').style.display = 'none';
@@ -65,12 +63,12 @@ function Contact() {
     }
     return (
         <div>
-            <div className={classes.root} id='successAlert' style={{ display: 'none' }}>
+            <div id='successAlert' style={{ display: 'none' }}>
                 <Alert onClose={closeAlertSuccess} severity="success" color="success">
                     Your query received , Our team will contact you !
                 </Alert>
             </div>
-            <div className={classes.root} id='errorAlert' style={{ display: 'none' }}>
+            <div id='errorAlert' style={{ display: 'none' }}>
                 <Alert onClose={closeAlertError} severity="error" color="error">
                     Wrong Data Provided !
                 </Alert>

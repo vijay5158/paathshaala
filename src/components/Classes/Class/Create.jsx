@@ -1,16 +1,16 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useAccessToken } from "../../../redux/reducers/authReducer";
 import { useUser } from "../../../redux/reducers/userReducer";
 import { createCLS } from "../../../redux/reducers/classReducer";
-import { CircularProgress, Input, Typography } from "@material-ui/core";
+import { CircularProgress, Input, Typography } from "@mui/material";
 
 function CreateClass(props) {
     const accessToken = useAccessToken();
@@ -66,7 +66,7 @@ function CreateClass(props) {
                         To create a class , please enter class details.
 
                     </DialogContentText>
-                    <Input
+                    <TextField
                         margin="dense"
                         id="classname"
                         label="Class Name"
@@ -75,6 +75,7 @@ function CreateClass(props) {
                         name="classname"
                         onChange={handleChange}
                         value={FormData?.classname}
+                        variant="outlined"
                     />
                     <TextField
                         margin="dense"
@@ -84,6 +85,7 @@ function CreateClass(props) {
                         fullWidth
                         onChange={handleChange}
                         value={FormData?.subject}
+                        variant="outlined"
                         name = "subject"
                     />
                     <TextField
@@ -94,6 +96,7 @@ function CreateClass(props) {
                         fullWidth
                         name="standard"
                         value={FormData?.standard}
+                        variant="outlined"
                         onChange={handleChange}
                     />
                 </DialogContent>

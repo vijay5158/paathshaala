@@ -37,7 +37,7 @@ export const assignmentSlice = createSlice({
     //     state.announcements = [action.payload,...state.announcements]
     // },
     addAssignmentSuccess: (state,action) => {
-        state.assignments = [...state.assignments,action.payload]
+        state.assignments = [action.payload, ...state.assignments]
     },
     // deleteCLSSuccess: (state,action) => {
     //     const index = state.assignmentes.indexOf(state.assignmentes.filter(cls=> cls.id===action.payload)[0])
@@ -108,21 +108,30 @@ export const getAssignmentSubmissions = (token, slug,data) => {
   };
 };
 
-export const createAssignment = (token, slug,data) => {
+export const createAssignment = (token, slug,data, setLoading) => {
   return dispatch => {
-      AxiosInstance.defaults.headers = {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-      };
-      AxiosInstance
-          .post(`create-assignment/${slug}/`,data)
-          .then(res => {
-              const data = res.data;
-              console.log(data);
-              // dispatch(getSubmissionsSuccess(data.data));
-          })
-          .catch(err => {
-              alert(err?.response?.data?.message);
-          });
+    try {
+        setLoading(true);
+        AxiosInstance.defaults.headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        };
+        AxiosInstance
+            .post(`create-assignment/${slug}/`,data)
+            .then(res => {
+                const data = res.data;
+                console.log(data);
+                // dispatch(getSubmissionsSuccess(data.data));
+            })
+            .catch(err => {
+                alert(err?.response?.data?.message);
+            })
+            .finally(()=> setLoading(false));
+    
+    } catch (error) {
+        console.log(error);
+        setLoading(false);
+    }
+
   };
 };

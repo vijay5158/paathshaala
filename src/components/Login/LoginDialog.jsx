@@ -1,22 +1,21 @@
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
 import {MdClose} from 'react-icons/md';
 import React from 'react';
 import Signup from "./Signup";
 import './style.css';
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = () => ({
     appBar: {
         position: 'relative',
     },
     title: {
-        marginLeft: theme.spacing(2),
+        marginLeft: "10px",
         flex: 1,
     },
-}));
+});
 
 
 export default function LoginDialog(props) {

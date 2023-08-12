@@ -23,7 +23,6 @@ const Assignment = () => {
             <hr />
             <div className="flex flex-col gap-2 sm:gap-3 w-full">
             {assignments.map((assignment, index)=> <AssignmentCard key={index} data={assignment} />)}
-            <AssignmentCard />
             </div>
         </main>
     );

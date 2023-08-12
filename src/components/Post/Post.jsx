@@ -1,9 +1,8 @@
-import { Button, CircularProgress, Input } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { Button, CircularProgress, Input, Box } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import {
     BsSendPlusFill
 } from "react-icons/bs";
@@ -17,7 +16,7 @@ import { useAccessToken } from "../../redux/reducers/authReducer";
 import { createComment } from "../../redux/reducers/postReducer";
 
 
-const useStyles1 = makeStyles((theme) => ({
+const useStyles1 = (theme) => ({
     root: {
         display: 'flex',
     },
@@ -39,12 +38,12 @@ const useStyles1 = makeStyles((theme) => ({
     controls: {
         display: 'flex',
         alignItems: 'center',
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
+        paddingLeft: "8px",
+        paddingBottom: "8px",
     },
-}));
+});
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = () => ({
     root: {
         flexGrow: 1,
 
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
     paper: {
-        padding: theme.spacing(2),
+        padding: "12px",
         margin: 'auto',
         // maxWidth: '60vw',
         // boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
@@ -68,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
         maxHeight: '100%',
     },
-}));
+});
 
 
 
@@ -99,8 +98,8 @@ function Post({postData, checkAndReopenWebSocket}) {
     }
       return (
         <>
-            <div className={classes.root}>
-                <Paper className={classes.paper}>
+            <Box sx={classes.root}>
+                <Paper sx={classes.paper}>
                     <Grid >
                         <Grid item>
                             <div style={{ display: 'flex' }}>
@@ -162,7 +161,7 @@ function Post({postData, checkAndReopenWebSocket}) {
                         </Grid>
                     </Grid>
                 </Paper>
-            </div>
+            </Box>
         </>
     );
 }

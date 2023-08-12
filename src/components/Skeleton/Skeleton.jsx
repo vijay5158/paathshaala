@@ -1,22 +1,21 @@
-import Card from '@material-ui/core/Card';
-import { makeStyles } from '@material-ui/core/styles';
+import Card from '@mui/material/Card';
 import React from 'react';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = () => ({
     card: {
-        maxWidth: 345,
-        margin: theme.spacing(2),
+        maxWidth: "345px",
+        margin: "12px",
     },
     media: {
-        height: 190,
+        height: "190px",
     },
-}));
+});
 
 function ClassSkeleton(props) {
     const classes = useStyles();
 
     return (
-        <Card className={classes.card}>
+        <Card sx={classes.card}>
         </Card>
     );
 }
