@@ -28,7 +28,7 @@ const useStyles = () => ({
         flex: '1 0 auto',
     },
     cover: {
-        width: "100%",
+        width: "100px",
         margin: '0.7rem'
     },
     controls: {
