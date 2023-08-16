@@ -1,6 +1,5 @@
 import { CircularProgress, Container, Input, Paper } from '@mui/material';
 import Button from "@mui/material/Button";
-import FormData from 'form-data';
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import Post from "./Post";

@@ -42,7 +42,6 @@ const Settings = () => {
     const handleClassDataSave = (e) =>{
         e.preventDefault();
         if(classData?.class_name && classData?.class_name!=="" && classData?.subject && classData?.subject!=="" && classData?.standard && classData?.standard!==""){
-            console.log(classData);
         }
         else{
             alert("Fields can't be empty !")
