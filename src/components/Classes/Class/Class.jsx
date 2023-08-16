@@ -21,10 +21,14 @@ import { setCurrentClass } from "../../../redux/reducers/classReducer";
 const useStyles = () => ({
     root: {
         fontFamily: 'Audiowide',
-        maxWidth: 345,
-        backgroundImage: `url(${Cardbg})`,
+        // maxWidth: 345,
+        // backgroundImage: `url(${Cardbg})`,
         boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
-        margin: 'auto'
+        margin: 'auto',
+        backgroundSize: 'cover', // Adjust background size as needed
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        borderRadius: '0rem'
     },
     media: {
         height: 0,
@@ -42,13 +46,12 @@ const useStyles = () => ({
         transform: 'rotate(180deg)',
     },
     avatar: {
-        backgroundColor: red[500],
+        background: "linear-gradient(45deg,#FF2C4F,#0B31D0)",
     },
 });
 
 function Class({classData}) {
     const dispatch = useDispatch();
-
     useEffect(() => {
         window.scrollTo(0, 0)
     }, []);
@@ -65,23 +68,25 @@ function Class({classData}) {
     return (
         <>
 
-            <Box p={1}>
-                <Link id='card-link' onClick={handleToClass} style={{ textDecoration: 'none', fontFamily: 'Audiowide' }} to={classData.slug}  >
-                    <div>
+            <Box>
+
+                <Box className="hover:bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] p-[2px] rounded-[0rem]">
                         <Card sx={classes.root}>
+                        <Link id='card-link' onClick={handleToClass} style={{ textDecoration: 'none', fontFamily: 'Audiowide' }} to={classData.slug}  >
                             <CardHeader
-                                style={{ width: '300px', marginTop: '1rem', height: '60px', fontFamily: 'Audiowide, cursive' }}
+                                sx={{ width: '300px', marginTop: '1rem', height: '60px', fontFamily: 'Audiowide, cursive' }}
                                 avatar={
                                     <Avatar aria-label="recipe" sx={classes.avatar}>
                                         {classData.subject.charAt(0)}
                                     </Avatar>
                                 }
-                                title={<p className='projName' style={{ fontSize: '1rem' }}>{classData.subject}</p>}
+                                title={<p className='projName' style={{ fontSize: '1rem' }}>{classData.subject?.toUpperCase()}</p>}
                                 subheader={<p>{classData.class_name + " " + classData.standard}</p>}
                             />
+                            </Link>
                             <CardMedia
                                 sx={classes.media}
-                                image={Coa}
+                                image={classData?.poster || Coa}
                                 title={classData.subject}
                             />
                             <CardContent>
@@ -111,8 +116,8 @@ function Class({classData}) {
                                 </CardContent>
                             </Collapse>
                         </Card>
-                    </div>
-                </Link>
+                    </Box>
+            
 
             </Box>
 

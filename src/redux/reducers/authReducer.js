@@ -2,11 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { setUserInfo, unSetUserInfo } from "./userReducer";
 import AxiosInstance from '../../AxiosInstance';
-import Cookies from "universal-cookie";
+import Cookies from "js-cookie";
 
-const cookies=new Cookies();
-const token= cookies.get('token')
-const refreshToken= cookies.get('refresh_token')
+const token= Cookies.get('token')
+const refreshToken= Cookies.get('refresh_token')
 
 const initialState = {
   isAuthenticated: false,
@@ -87,9 +86,8 @@ try {
   }).then((res)=>{
     dispatch(logout());
     dispatch(unSetUserInfo());
-    const newCookies=new Cookies();
-    newCookies.remove('token');
-    newCookies.remove('refresh_token');
+    Cookies.remove('token');
+    Cookies.remove('refresh_token');
     AxiosInstance.defaults.headers['Authorization'] = null;
 
   })
@@ -136,8 +134,8 @@ try {
     dispatch(login(tokens))
     dispatch(setUserInfo(user));
     // dispatch(checkAuthTimeout(36000));
-    cookies.set('token', tokens?.access);
-    cookies.set('refresh_token', tokens?.refresh);
+    Cookies.set('token', tokens?.access, { expires: 7 });
+    Cookies.set('refresh_token', tokens?.refresh, { expires: 7 });
     processDone();
   }
   else{
@@ -178,8 +176,8 @@ export const authSignup = (userData, processDone, processFail) => {
       dispatch(login(tokens))
       dispatch(setUserInfo(user));
       // dispatch(checkAuthTimeout(36000));
-      cookies.set('token', tokens?.access);
-      cookies.set('refresh_token', tokens?.refresh);
+      Cookies.set('token', tokens?.access, { expires: 7 });
+      Cookies.set('refresh_token', tokens?.refresh,  { expires: 7 });
       processDone()
     })
     .catch(err => {

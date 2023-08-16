@@ -120,7 +120,6 @@ export const createAssignment = (token, slug,data, setLoading, handleDone) => {
             .post(`create-assignment/${slug}/`,data)
             .then(res => {
                 const data = res.data;
-                console.log(data);
                 // dispatch(getSubmissionsSuccess(data.data));
                 handleDone()
             })

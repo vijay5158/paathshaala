@@ -91,10 +91,10 @@ const handleCloseclass = () => {
   };
   return (
     <>
-     <div style={{ display: 'flex', flexDirection: 'row' }} >
+     <div className="flex relative" >
         <img src={(authData?.profile_img) ? authData?.profile_img : "https://bootdey.com/img/Content/avatar/avatar7.png"} alt="Admin"
             className="rounded-circle" style={{ width: '9rem', height: '9rem', borderRadius: '50%' }} />
-            <span className="cursor-pointer flex items-end" htmlFor="profile_img" onClick={handleClickOpen}>
+            <span className="cursor-pointer absolute right-[14px] bg-[white] p-[5px] rounded-full bottom-[14px] flex items-end" htmlFor="profile_img" onClick={handleClickOpen}>
             <AiFillEdit />
             </span> 
             {/* <input type="file" className="hidden" id="profile_img"
