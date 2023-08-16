@@ -61,6 +61,15 @@ const Navbar = ({content,setContent}) => {
                             }>
                 Video Room</span>
         </li>
+                <li className="mr-2">
+            <span onClick={()=> setContent("settings")} className={
+                                content==="settings"?
+                                "inline-block p-4 cursor-pointer text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                                :
+                                "inline-block p-4 cursor-pointer border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                            }>
+                Settings</span>
+        </li>
     </ul>
 </div>
     

@@ -6,7 +6,7 @@ import { authLogin, authSignup } from "../../redux/reducers/authReducer";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { green } from "@mui/material/colors";
+import { PiStudentFill } from "react-icons/pi";
 
 const handleSlideSignup = () => {
     const sign_in_btn = document.querySelector("#sign-in-btn");
@@ -33,14 +33,14 @@ function Signup(props) {
         email: '',
         mobile: '',
         password: '',
-        userType: ''
+        userType: '0'
     })
     const lastFormDataSignup = Object.freeze({
         name: '',
         email: '',
         mobile: '',
         password: '',
-        userType: 'student'
+        userType: ''
     })
     const [formDataSignup, setFormDataSignup] = useState(initialFormDataSignup);
     const handleChangeSignup = (event) => {
@@ -70,6 +70,7 @@ function Signup(props) {
             is_student = true
             is_teacher = false
         }
+        setLoading(true);
         dispatch(authSignup({name, email, mobile, password, is_student, is_teacher},processDone,processFail));
         setFormDataSignup(lastFormDataSignup);        
     }
@@ -116,40 +117,44 @@ function Signup(props) {
             <div className="container max-w-[100%]" id="signupContainer">
                 <div className="forms-container">
                     <div className="signin-signup">
-                        <form action="/" className="sign-up-form">
+                        <form onSubmit={handleSubmit} className="sign-up-form">
                             <h2 className="title">Sign up</h2>
                             <div className="input-field">
                                 <AiOutlineUser />
-                                <input type="text" onChange={handleChangeSignup} id="name" name="name" placeholder="Enter Name" />
+                                <input type="text" value={formDataSignup?.name} required onChange={handleChangeSignup} id="name" name="name" placeholder="Enter Name" />
                             </div>
                             <div className="input-field">
                                 <MdEmail />
-                                <input type="email" id="email" onChange={handleChangeSignup} name="email" placeholder="Email" />
+                                <input type="email" required id="email" value={formDataSignup?.email} onChange={handleChangeSignup} name="email" placeholder="Email" />
                             </div>
                             <div className="input-field">
-                                <BsFillTelephoneFill />
-                                <input type="num" onChange={handleChangeSignup} id="mobile" name="mobile" placeholder="mobile number" />
+                            <span className="font-semibold text-[#acacac] text-[1.1rem] ml-[10px]">+91</span>
+                                <input type="text" pattern="\d{10}" value={formDataSignup?.mobile} required title="Please enter a valid 10-digit phone number" onChange={handleChangeSignup} id="mobile" name="mobile" placeholder="mobile number" />
                             </div>
                             <div className="input-field">
                                 <MdPassword />
-                                <input type="password" onChange={handleChangeSignup} id="password" name="password" placeholder="Password" />
+                                <input type="password" required value={formDataSignup?.password} onChange={handleChangeSignup} id="password" name="password" placeholder="Password" />
                             </div>
-                            <FormControl >
-                                <InputLabel htmlFor="age-native-helper">Are you ?</InputLabel>
-                                <NativeSelect
-                                    defaultValue={"0"}
+                            <div className="input-field">
+                                {/* <InputLabel htmlFor="age-native-helper">Are you ?</InputLabel> */}
+                                <PiStudentFill />
+                                <select
+                                    className="bg-transparent border-0 cursor-pointer outline-none h-full text-[1.1rem] text-[#333] font-semibold"
+                                    // defaultValue={"0"}
                                     onChange={handleChangeSignup}
                                     id='age-native-helper'
-                                    name="userType"
+                                    name="userType" 
+                                    required
+                                    value={formDataSignup?.userType}
                                 >
-                                    <option disabled aria-label="None" value="0" />
+                                    <option disabled aria-label="None" value="0">Choose Role</option>
                                     <option value="student">Student</option>
                                     <option value="teacher">Teacher</option>
-                                </NativeSelect>
-                                <FormHelperText>please select accordingly.</FormHelperText>
-                            </FormControl>
+                                </select>
+                                {/* <FormHelperText>please select accordingly.</FormHelperText> */}
+                            </div>
 
-                            <button type="submit" className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)]" onClick={handleSubmit}>
+                            <button type="submit" className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] flex gap-2 items-center">
                             Take Off!
                                 {loading && <CircularProgress size={14} color="inherit" />}
                             </button>
@@ -169,17 +174,17 @@ function Signup(props) {
                                 </a>
                             </div> */}
                         </form>
-                        <form action="#" className="sign-in-form">
+                        <form onSubmit={handleSubmitLogin} className="sign-in-form">
                             <h2 className="title">Login</h2>
                             <div className="input-field">
                                 <MdEmail />
-                                <input type="email" id="email1" onChange={handleChangeLogin} value={formDataLogin?.email} name="email" placeholder="Email" />
+                                <input type="email" required id="email1" onChange={handleChangeLogin} value={formDataLogin?.email} name="email" placeholder="Email" />
                             </div>
                             <div className="input-field">
                                 <MdPassword />
-                                <input type="password" onChange={handleChangeLogin} value={formDataLogin?.password} name="password" placeholder="Password" />
+                                <input type="password" required onChange={handleChangeLogin} value={formDataLogin?.password} name="password" placeholder="Password" />
                             </div>
-                            <button type="submit" disabled={loading} onClick={handleSubmitLogin} className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] solid">
+                            <button type="submit" disabled={loading} className="btn bg-[linear-gradient(45deg,#FF2C4F,#0B31D0)] solid flex gap-2 items-center">
                                 Launch
                             {loading &&  <CircularProgress size={14} color="inherit" />}
                                 </button>

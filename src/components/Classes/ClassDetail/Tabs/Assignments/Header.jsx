@@ -126,7 +126,7 @@ const Header = () => {
             label="Document"
             type="file"
             fullWidth
-            value={document}
+            // value={document}
 
             variant="outlined"
             onChange={handleFileChange}

@@ -23,8 +23,12 @@ const useStyles = () => (
     {
         root: {
             minWidth: 275,
-            backgroundImage: `url(${Cardbg})`,
-            width: '100%'
+            // backgroundImage: `url(${Cardbg})`,
+            width: '100%',
+            // backgroundSize: 'cover', // Adjust background size as needed
+            // backgroundPosition: 'center',
+            // backgroundRepeat: 'no-repeat'
+            background: 'linear-gradient(180deg, #58418b24 0%, #FFFFFF 30.21%)'
         },
         bullet: {
             display: 'inline-block',

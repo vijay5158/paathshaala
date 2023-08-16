@@ -55,7 +55,11 @@ const useStyles = () => ({
         margin: 'auto',
         // maxWidth: '60vw',
         // boxShadow: '0 1px 3px 0 rgb(23 23 23 / 30%), 0 4px 8px 3px rgb(10 10 10 / 15%)',
-        backgroundImage: `url(${postbg})`
+        backgroundImage: `url(${postbg})`,
+        backgroundSize: 'cover', // Adjust background size as needed
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+
     },
     image: {
         width: 128,

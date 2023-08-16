@@ -95,7 +95,7 @@ const Navbar = (props) => {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}><Link to="/my-account/" style={{ textDecoration: 'none' }}>My account</Link></MenuItem>
+                            <MenuItem> <Link onClick={handleClose} to="/my-account/" style={{ textDecoration: 'none' }}>My account</Link></MenuItem>
                             <MenuItem onClick={handleCloseLogout}><Link to="/" style={{ textDecoration: 'none' }}>Logout</Link></MenuItem>
                         </Menu>
                     </div> : <div className='rightNavResp'> <Login text="Login" /> </div>}

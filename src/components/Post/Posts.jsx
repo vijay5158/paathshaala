@@ -111,10 +111,10 @@ const handleLoading = ()=>{
                                             onChange={handleChangeFile} disableUnderline={true} name="file" /> </Button> : null}
                             </div>
                             {(expand) ?
-                                <div className="button-form">
+                                <div className="button-form flex flex-col gap-4">
                                     <Button type="submit" disabled={loading} >
                                         
-                                    {loading ? <CircularProgress size={14} color="inherit" /> : <AiOutlineSend className='text-[#f74754] text-xl' />}
+                                    {loading ? <CircularProgress size={14} color="inherit" /> : <AiOutlineSend className='text-[#0B31D0] text-xl' />}
                                     </Button>
                                     <Button onClick={() => setExpand(false)}>
                                         <MdClose className='text-[#f74754] text-xl' />

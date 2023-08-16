@@ -11,6 +11,7 @@ import { useUser } from "../../../redux/reducers/userReducer";
 import Navbar from "../../Navbar/ClassNavbar";
 import Liveroom from './Tabs/Liveroom';
 import RoomLobby from './Tabs/Videoroom/RoomLobby';
+import Settings from './Tabs/ClassSettings/Settings';
 // import Attendance from './Tabs/Attendance';
 // import Announcements from './Tabs/Announcements/Announcements';
 // import Assignment from './Tabs/Assignment';
@@ -48,6 +49,8 @@ function ClassDetail(props) {
                   {
                     content==="videoroom" ?
                     <RoomLobby /> :
+                    content==="settings" ?
+                    <Settings /> :
                     <Liveroom /> 
                   }
                 </>
