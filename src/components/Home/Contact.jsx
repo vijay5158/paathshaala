@@ -34,7 +34,7 @@ function Contact() {
             concern: formDataContact.concern
         }
 
-        axios.post("https://api.paathshaala.me/contact/", contact)
+        axios.post("https://api.paathshaala.me/api/contact/", contact)
             .then((res) => {
                 setFormDataContact(initialDataContact);
                 closeAlertError();
