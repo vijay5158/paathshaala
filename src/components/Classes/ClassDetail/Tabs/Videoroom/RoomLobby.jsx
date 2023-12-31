@@ -14,7 +14,7 @@ const RoomLobby = () => {
     const webSocket = useRef(null);
     const accessToken = useAccessToken();
     const [localStream, setLocalStream] = useState(null);
-
+    const [isVideoRoomAccessible, setIsVideoRoomAccessible] = useState(false);
     const peersRef = useRef([]);
     const [peers, setPeers] = useState({});
     const [enteredRoom, setEnteredRoom] = useState(false);
@@ -53,7 +53,7 @@ const RoomLobby = () => {
         ],
       };
     
-      for (const peerId in setPeers) {
+      for (const peerId in peerIds) {
         if (peers.hasOwnProperty(peerId)){
         const peerConnection = peers[peerId];
         peerConnection.addEventListener('icecandidate', (event) =>
@@ -80,8 +80,9 @@ const RoomLobby = () => {
     
   const createWebSocketConnection = ()=>{
     const path = `wss://api.paathshaala.me/ws/video/${slug}/?token=${accessToken}`;
+    const localPath = `ws://localhost:8000/ws/video/${slug}/?token=${accessToken}`;
 
-  webSocket.current = new WebSocket(path);
+  webSocket.current = new WebSocket(localPath);
   webSocket.current.onopen = () => {
     webSocket.current.send(JSON.stringify({
       type: "join_room_ack",
@@ -172,16 +173,18 @@ const handleAnswer = async (data)=>{
 
 useEffect(() => {
 
-      createWebSocketConnection();
-      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        setLocalStream(stream);
-        myVideo.current.srcObject = stream;
-        // console.log(stream);
-      })
-      .catch((error) => {
-        console.error('Error accessing media devices:', error);
-      });
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+  .then((stream) => {
+    setLocalStream(stream);
+    myVideo.current.srcObject = stream;
+    console.log(stream);
+    if (stream){
+    createWebSocketConnection();
+    }
+  })
+  .catch((error) => {
+    console.error('Error accessing media devices:', error);
+  });
 
         return () => {
           disconnect();
@@ -288,10 +291,10 @@ useEffect(() => {
     }
   
     return (
-    <>
+   <>
     {!enteredRoom &&
     <div className='flex flex-col gap-4 items-center justify-start my-6 w-full px-4 py-4 max-h-[80vh]'>
-      {localStream && <video ref={myVideo} autoPlay muted playsInline className='w-full max-w-[500px] rounded-[2rem] shadow-md border-2 border-[#1b30c7]' />}
+      <video ref={myVideo} autoPlay muted playsInline className='w-full max-w-[500px] rounded-[2rem] shadow-md border-2 border-[#1b30c7]' />
 
      {/* Button to initiate the video call */}
      <button className='btn' onClick={handleJoinLobby}>Enter Class</button>

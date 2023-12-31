@@ -4,7 +4,7 @@ import Chip from "@mui/material/Chip";
 const AssignmentCard = ({data}) => {
     return (
         <div className=" w-full flex hover:shadow-md shadow-lg rounded-lg overflow-hidden">
-        <div className="h-38 w-1/3 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden bg-[url('https://source.unsplash.com/random/?art,abstract,architecture,interior,3d,aesthetic,modern')]" title={data?.title}>
+        <div className="h-38 w-1/3 lg:h-auto flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden bg-[url('https://source.unsplash.com/random/?art,abstract,architecture,interior,3d,aesthetic,modern')]" title={data?.title}>
         </div>
         <div className="w-2/3 rounded-lg border-r border-b border-t border-gray-200 lg:border-l-0 lg:border-t lg:border-gray-200 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
           <div className="mb-8">

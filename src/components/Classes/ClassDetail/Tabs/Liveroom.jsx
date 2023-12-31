@@ -95,7 +95,7 @@ const Liveroom = () => {
     const path = `wss://api.paathshaala.me/ws/class/${slug}/?token=${accessToken}`;
     const localPath = `ws://localhost:8000/ws/class/${slug}/?token=${accessToken}`;
   
-    webSocket.current = new WebSocket(path);
+    webSocket.current = new WebSocket(localPath);
     webSocket.current.onopen = () => {
       webSocket.current.send(JSON.stringify({
         type: "auth",

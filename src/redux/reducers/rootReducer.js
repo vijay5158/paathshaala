@@ -4,6 +4,7 @@ import userReducer from './userReducer';
 import classReducer from './classReducer';
 import postReducer from './postReducer';
 import assignmentReducer from './assignmentReducer';
+import peerReducer from './peerReducer';
 
 
 
@@ -13,5 +14,6 @@ export default combineReducers(
         userReducer:  userReducer,
         classReducer: classReducer,
         postReducer: postReducer,
-        assignmentReducer: assignmentReducer
+        assignmentReducer: assignmentReducer,
+        peerReducer: peerReducer
     });

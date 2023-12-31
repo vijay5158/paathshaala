@@ -11,6 +11,7 @@ import Navbar from "../../Navbar/ClassNavbar";
 import Liveroom from './Tabs/Liveroom';
 import RoomLobby from './Tabs/Videoroom/RoomLobby';
 import Settings from './Tabs/ClassSettings/Settings';
+import Lobby from './Tabs/Videoroom/Lobby';
 // import Attendance from './Tabs/Attendance';
 // import Announcements from './Tabs/Announcements/Announcements';
 // import Assignment from './Tabs/Assignment';
@@ -47,7 +48,7 @@ function ClassDetail(props) {
                     {/* <SideBar slug={slug} isStudent={userData?.is_student} /> */}
                   {
                     content==="videoroom" ?
-                    <RoomLobby /> :
+                    <Lobby /> :
                     content==="settings" ?
                     <Settings /> :
                     <Liveroom /> 

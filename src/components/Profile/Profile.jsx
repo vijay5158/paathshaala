@@ -73,7 +73,6 @@ function Profile(props) {
     }
     setEditMode(false)
 }
-
     return (
         <>
             <div className="container1">
